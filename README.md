@@ -31,7 +31,7 @@ public edge API, with a Next.js console on Workers + Static Assets.
   apply on merge to `main`).
 - **Billing** is live end-to-end via the Polar adapter (embedded checkout,
   plan changes, multi-org fan-out).
-- **Known credential-blocked tails** (see `specs/epics/saas-baseline/`): full
+- **Known credential-blocked tails**: full
   production OAuth/magic-link auth and Stripe require human-supplied
   credentials. The notifications email provider is Cloudflare Email Service
   (`cloudflare-email`, no API key — the `send_email` binding is the

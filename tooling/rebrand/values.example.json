@@ -1,9 +1,0 @@
-{
-  "repoName": "acme-cloud",
-  "productName": "Acme Cloud",
-  "productDomain": "acme.dev",
-  "brandSlug": "acme",
-  "cliBin": "acme",
-  "workersDevSubdomain": "your-workers-subdomain",
-  "salesEmail": "sales@acme.dev"
-}
