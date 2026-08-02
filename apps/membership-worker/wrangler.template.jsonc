@@ -39,7 +39,11 @@
         {
           "binding": "BILLING_WORKER",
           "service": "ambient-billing-worker-stage"
-        }// @cycle-break:membership-worker->notifications-worker:LAogICAgICAgIHsKICAgICAgICAgICJiaW5kaW5nIjogIk5PVElGSUNBVElPTlNfV09SS0VSIiwKICAgICAgICAgICJzZXJ2aWNlIjogImFtYmllbnQtbm90aWZpY2F0aW9ucy13b3JrZXItc3RhZ2UiCiAgICAgICAgfQ==
+        },
+        {
+          "binding": "NOTIFICATIONS_WORKER",
+          "service": "ambient-notifications-worker-stage"
+        }
       ]
     },
     "prod": {
@@ -62,7 +66,11 @@
         {
           "binding": "BILLING_WORKER",
           "service": "ambient-billing-worker-prod"
-        }// @cycle-break:membership-worker->notifications-worker:LAogICAgICAgIHsKICAgICAgICAgICJiaW5kaW5nIjogIk5PVElGSUNBVElPTlNfV09SS0VSIiwKICAgICAgICAgICJzZXJ2aWNlIjogImFtYmllbnQtbm90aWZpY2F0aW9ucy13b3JrZXItcHJvZCIKICAgICAgICB9
+        },
+        {
+          "binding": "NOTIFICATIONS_WORKER",
+          "service": "ambient-notifications-worker-prod"
+        }
       ]
     }
   }
