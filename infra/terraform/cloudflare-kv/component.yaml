@@ -50,5 +50,3 @@ spec:
             when:
               triggerRef: github-push-main
 # ci: re-trigger kv apply with brand-namespaced title (baseline collision fix)
-
-# converge: re-planned 2026-08-02 after CI orun pin bump to v2.52.4 (lanes 404d on the declared intent project with v2.49.0)

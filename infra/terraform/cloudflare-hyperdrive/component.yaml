@@ -59,5 +59,3 @@ spec:
             when:
               triggerRef: github-push-main
 # ci: trigger convergence — first-boot infra bring-up (hyperdrive stage/prod)
-
-# converge: re-planned 2026-08-02 after CI orun pin bump to v2.52.4 (lanes 404d on the declared intent project with v2.49.0)

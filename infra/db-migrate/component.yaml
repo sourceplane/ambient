@@ -57,5 +57,3 @@ spec:
               triggerRef: github-push-main
 # ci: re-trigger deploy (batch A — runner-starvation recovery 20260622T115650Z)
 # ci: re-trigger deploy (batch A — runner-starvation recovery 20260622T115650Z)
-
-# converge: re-planned 2026-08-02 after CI orun pin bump to v2.52.4 (lanes 404d on the declared intent project with v2.49.0)
