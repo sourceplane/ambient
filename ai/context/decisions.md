@@ -1,5 +1,12 @@
 # Decisions
 
+> INHERITED FROM THE BASELINE at fork time (see
+> [fork-from-baseline.md](fork-from-baseline.md)). Architecture-level
+> entries generally still apply to this product; baseline-SESSION items
+> (spec-pack pointers, task numbers, epic state) may not. Review before
+> relying on any specific entry, and maintain this file for the product
+> going forward.
+
 Last updated: 2026-05-26
 
 ## Active Decisions
