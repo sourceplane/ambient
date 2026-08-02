@@ -16,6 +16,7 @@ execution:
     # `workspace` is the leading spelling in orun v2.20.0 (a ws_ Workspace ID,
     # slug, or legacy org_ id); it supersedes the deprecated `org:` alias.
     workspace: ws_91J9CD5W
+    project: ambient
     requireOrg: true
     # Push/sync the resolved catalog to orun-cloud after a successful plan on the
     # default branch, keeping the org-global catalog head fresh without an
