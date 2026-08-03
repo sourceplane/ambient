@@ -61,7 +61,7 @@ export function ChangePlanCards({ orgId, orgSlug }: { orgId: string; orgSlug: st
   const [busy, setBusy] = React.useState(false);
   const [statusMsg, setStatusMsg] = React.useState("");
 
-  const billingPath = `/orgs/${orgSlug}/settings/billing`;
+  const billingPath = `/studio/orgs/${orgSlug}/settings/billing`;
   const loading = plansQ.loading || summaryQ.loading;
   const currentCode = summaryQ.data?.plan?.code ?? "free";
   const manageable = currentCode !== "free" && !!summaryQ.data?.activeSubscription?.providerSubscriptionId;

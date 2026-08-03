@@ -25,11 +25,29 @@ config, the Radix primitives and the tokens file; they share no chrome.
 | `/news` | News index |
 | `/awards` | Points at where awards actually live (see below) |
 
-### Console — unchanged, plus one new entry point
+### Console — entirely under `/studio`
 
-`/studio` resolves an operator to their last-used org, or to
-`/onboarding`, or to `/login`. Every console route it used to reach
-(`/orgs/…`, `/account`, `/login`, `/onboarding`) is exactly where it was.
+| Route | What it is |
+|---|---|
+| `/studio` | Entry: resolves to the operator's last-used org, or onboarding, or sign-in |
+| `/studio/orgs/…` | Everything org-scoped |
+| `/studio/account`, `/studio/account/security` | Operator account |
+| `/studio/onboarding`, `/studio/demo` | |
+
+`/login` and `/auth/callback` stay at the top level: they are the entry
+point for **both** surfaces, and a signed-out visitor arriving at a film
+page should not be sent through a URL that says "studio".
+
+The old top-level addresses (`/orgs`, `/account`, `/onboarding`,
+`/demo`) are permanent 308 redirects, wildcard so a deep bookmark like
+`/orgs/acme/settings/webhooks/we_123` lands on the same page.
+
+**Why the move.** `/account` was a genuine collision: the site's own
+Account tab pointed at it and dropped the visitor into the operator
+console. Two products sharing one top-level namespace means every new
+film route is a potential collision with a console route. The catalog
+owns the root; the console owns one prefix. A test asserts the boundary
+so it cannot erode.
 
 ## The seams that matter
 

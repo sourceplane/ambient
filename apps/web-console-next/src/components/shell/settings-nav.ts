@@ -8,7 +8,7 @@
  * Settings is the dedicated "organization administration" surface: the primary
  * sidebar stays product-focused (Projects, Usage), while everything that
  * configures the org — identity, people, billing, and developer integrations —
- * lives here behind `/orgs/[slug]/settings/*`.
+ * lives here behind `/studio/orgs/[slug]/settings/*`.
  */
 
 import { SOLO_MODE } from "../../lib/solo-mode";
@@ -53,7 +53,7 @@ export interface SettingsNavGroup {
  * it pays, and the developer-facing integration surface.
  */
 export function buildSettingsNav(orgSlug: string, soloMode: boolean = SOLO_MODE): SettingsNavGroup[] {
-  const base = `/orgs/${orgSlug}/settings`;
+  const base = `/studio/orgs/${orgSlug}/settings`;
   const groups: SettingsNavGroup[] = [
     {
       id: "organization",

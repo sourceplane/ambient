@@ -88,15 +88,15 @@ describe("createButtonLabel", () => {
 describe("postCreatePath", () => {
   it("routes the GitHub starting point to the new org's integrations page", () => {
     expect(postCreatePath("child", { kind: "git", provider: "github" }, "acme")).toBe(
-      "/orgs/acme/settings/integrations",
+      "/studio/orgs/acme/settings/integrations",
     );
   });
 
   it("routes everything else to the new org's projects dashboard", () => {
-    expect(postCreatePath("parent", { kind: "scratch" }, "acme")).toBe("/orgs/acme/projects");
-    expect(postCreatePath("child", { kind: "scratch" }, "acme")).toBe("/orgs/acme/projects");
+    expect(postCreatePath("parent", { kind: "scratch" }, "acme")).toBe("/studio/orgs/acme/projects");
+    expect(postCreatePath("child", { kind: "scratch" }, "acme")).toBe("/studio/orgs/acme/projects");
     expect(postCreatePath("child", { kind: "template", templateId: "web-app" }, "acme")).toBe(
-      "/orgs/acme/projects",
+      "/studio/orgs/acme/projects",
     );
   });
 });

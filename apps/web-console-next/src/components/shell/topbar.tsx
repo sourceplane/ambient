@@ -71,10 +71,10 @@ export function Topbar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="min-w-[220px]">
               <DropdownMenuLabel>Account</DropdownMenuLabel>
-              <DropdownMenuItem onSelect={() => router.push("/account")}>
+              <DropdownMenuItem onSelect={() => router.push("/studio/account")}>
                 <User2 className="h-4 w-4 opacity-70" /> Profile
               </DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => router.push("/orgs")}>
+              <DropdownMenuItem onSelect={() => router.push("/studio/orgs")}>
                 <Building2 className="h-4 w-4 opacity-70" /> Organizations
               </DropdownMenuItem>
               {/* Theme toggle — this account menu is the mobile theme control. */}

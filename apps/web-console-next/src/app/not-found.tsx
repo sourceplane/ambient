@@ -4,7 +4,7 @@ import { Compass } from "lucide-react";
 /**
  * Designed 404 — every unmatched console URL lands here instead of the
  * unbranded Next.js default. Server component (no session hooks): the route
- * may be hit logged-out, and `/orgs` re-routes through the auth guard anyway.
+ * may be hit logged-out, and `/studio/orgs` re-routes through the auth guard anyway.
  */
 export default function NotFound() {
   return (
@@ -22,13 +22,13 @@ export default function NotFound() {
         </div>
         <div className="flex items-center justify-center gap-2">
           <Link
-            href="/orgs"
+            href="/studio/orgs"
             className="inline-flex h-9 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90"
           >
             Back to organizations
           </Link>
           <Link
-            href="/account"
+            href="/studio/account"
             className="inline-flex h-9 items-center rounded-md border border-border px-4 text-sm font-medium hover:bg-accent"
           >
             Account

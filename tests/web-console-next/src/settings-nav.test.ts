@@ -12,13 +12,13 @@ describe("buildSettingsNav", () => {
 
   it("roots every link under the org settings base", () => {
     for (const link of flattenSettingsNav(buildSettingsNav("acme"))) {
-      expect(link.href.startsWith("/orgs/acme/settings")).toBe(true);
+      expect(link.href.startsWith("/studio/orgs/acme/settings")).toBe(true);
     }
   });
 
   it("exposes General as the exact-match settings index", () => {
     const general = flattenSettingsNav(buildSettingsNav("acme")).find((l) => l.label === "General")!;
-    expect(general.href).toBe("/orgs/acme/settings");
+    expect(general.href).toBe("/studio/orgs/acme/settings");
     expect(general.exact).toBe(true);
   });
 
@@ -26,13 +26,13 @@ describe("buildSettingsNav", () => {
     const hrefs = flattenSettingsNav(buildSettingsNav("acme")).map((l) => l.href);
     expect(hrefs).toEqual(
       expect.arrayContaining([
-        "/orgs/acme/settings/members",
-        "/orgs/acme/settings/invitations",
-        "/orgs/acme/settings/billing",
-        "/orgs/acme/settings/api-keys",
-        "/orgs/acme/settings/webhooks",
-        "/orgs/acme/settings/config",
-        "/orgs/acme/settings/audit",
+        "/studio/orgs/acme/settings/members",
+        "/studio/orgs/acme/settings/invitations",
+        "/studio/orgs/acme/settings/billing",
+        "/studio/orgs/acme/settings/api-keys",
+        "/studio/orgs/acme/settings/webhooks",
+        "/studio/orgs/acme/settings/config",
+        "/studio/orgs/acme/settings/audit",
       ]),
     );
   });
@@ -52,12 +52,12 @@ describe("buildSettingsNav under the Solo (M0) profile", () => {
   it("hides members, invitations, api-keys, webhooks, integrations, and audit", () => {
     const hrefs = flattenSettingsNav(solo()).map((l) => l.href);
     for (const suppressed of [
-      "/orgs/acme/settings/members",
-      "/orgs/acme/settings/invitations",
-      "/orgs/acme/settings/api-keys",
-      "/orgs/acme/settings/webhooks",
-      "/orgs/acme/settings/integrations",
-      "/orgs/acme/settings/audit",
+      "/studio/orgs/acme/settings/members",
+      "/studio/orgs/acme/settings/invitations",
+      "/studio/orgs/acme/settings/api-keys",
+      "/studio/orgs/acme/settings/webhooks",
+      "/studio/orgs/acme/settings/integrations",
+      "/studio/orgs/acme/settings/audit",
     ]) {
       expect(hrefs).not.toContain(suppressed);
     }
@@ -67,10 +67,10 @@ describe("buildSettingsNav under the Solo (M0) profile", () => {
     const hrefs = flattenSettingsNav(solo()).map((l) => l.href);
     expect(hrefs).toEqual(
       expect.arrayContaining([
-        "/orgs/acme/settings", // General
-        "/orgs/acme/settings/notifications",
-        "/orgs/acme/settings/billing",
-        "/orgs/acme/settings/config",
+        "/studio/orgs/acme/settings", // General
+        "/studio/orgs/acme/settings/notifications",
+        "/studio/orgs/acme/settings/billing",
+        "/studio/orgs/acme/settings/config",
       ]),
     );
   });
@@ -91,17 +91,17 @@ describe("isSettingsLinkActive", () => {
   const webhooks = links.find((l) => l.label === "Webhooks")!;
 
   it("matches General only on the exact settings index", () => {
-    expect(isSettingsLinkActive(general, "/orgs/acme/settings")).toBe(true);
-    expect(isSettingsLinkActive(general, "/orgs/acme/settings/members")).toBe(false);
+    expect(isSettingsLinkActive(general, "/studio/orgs/acme/settings")).toBe(true);
+    expect(isSettingsLinkActive(general, "/studio/orgs/acme/settings/members")).toBe(false);
   });
 
   it("keeps a section active on its nested detail pages", () => {
-    expect(isSettingsLinkActive(webhooks, "/orgs/acme/settings/webhooks")).toBe(true);
-    expect(isSettingsLinkActive(webhooks, "/orgs/acme/settings/webhooks/ep_123")).toBe(true);
+    expect(isSettingsLinkActive(webhooks, "/studio/orgs/acme/settings/webhooks")).toBe(true);
+    expect(isSettingsLinkActive(webhooks, "/studio/orgs/acme/settings/webhooks/ep_123")).toBe(true);
   });
 
   it("does not match sibling prefixes or a null pathname", () => {
-    expect(isSettingsLinkActive(webhooks, "/orgs/acme/settings/webhooks-archive")).toBe(false);
+    expect(isSettingsLinkActive(webhooks, "/studio/orgs/acme/settings/webhooks-archive")).toBe(false);
     expect(isSettingsLinkActive(webhooks, null)).toBe(false);
   });
 });

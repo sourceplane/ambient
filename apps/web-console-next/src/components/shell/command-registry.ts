@@ -77,9 +77,9 @@ export interface CommandContext {
  */
 export function buildBaseCommands(ctx: CommandContext): CommandDescriptor[] {
   const out: CommandDescriptor[] = [];
-  const orgBase = ctx.orgSlug ? `/orgs/${ctx.orgSlug}` : null;
+  const orgBase = ctx.orgSlug ? `/studio/orgs/${ctx.orgSlug}` : null;
   const projectBase =
-    ctx.orgSlug && ctx.projectSlug ? `/orgs/${ctx.orgSlug}/projects/${ctx.projectSlug}` : null;
+    ctx.orgSlug && ctx.projectSlug ? `/studio/orgs/${ctx.orgSlug}/projects/${ctx.projectSlug}` : null;
 
   // --- Navigation -----------------------------------------------------------
   out.push({
@@ -87,7 +87,7 @@ export function buildBaseCommands(ctx: CommandContext): CommandDescriptor[] {
     label: "Switch organization",
     group: "Navigation",
     kind: "navigate",
-    to: "/orgs",
+    to: "/studio/orgs",
     icon: "Building2",
     keywords: ["org", "organization", "switch", "tenant"],
     shortcut: "O",
@@ -97,7 +97,7 @@ export function buildBaseCommands(ctx: CommandContext): CommandDescriptor[] {
     label: "Account profile",
     group: "Navigation",
     kind: "navigate",
-    to: "/account",
+    to: "/studio/account",
     icon: "User2",
     keywords: ["profile", "account", "me", "name", "display name", "sign out", "logout"],
   });
@@ -106,7 +106,7 @@ export function buildBaseCommands(ctx: CommandContext): CommandDescriptor[] {
     label: "Security activity",
     group: "Navigation",
     kind: "navigate",
-    to: "/account/security",
+    to: "/studio/account/security",
     icon: "ShieldCheck",
     keywords: ["security", "sessions", "activity", "login", "account"],
   });
@@ -180,7 +180,7 @@ export function buildBaseCommands(ctx: CommandContext): CommandDescriptor[] {
     label: "Create organization",
     group: "Create",
     kind: "navigate",
-    to: "/orgs?new=1",
+    to: "/studio/orgs?new=1",
     icon: "PlusCircle",
     keywords: ["new", "create", "org"],
   });

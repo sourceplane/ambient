@@ -59,11 +59,11 @@ export function clearLastOrgSlug(): void {
  * callers pass `readLastOrgSlug()`.
  */
 export function defaultOrgDestination(lastOrgSlug: string | null, soloMode: boolean = SOLO_MODE): string {
-  if (!lastOrgSlug) return "/onboarding";
+  if (!lastOrgSlug) return "/studio/onboarding";
   // Solo: projects are suppressed, so the personal workspace's "dashboard" is
   // its Account (settings) surface — where the kept single-user features live
   // (account, notifications, billing, config). Baseline lands on projects.
-  return soloMode ? `/orgs/${lastOrgSlug}/settings` : `/orgs/${lastOrgSlug}/projects`;
+  return soloMode ? `/studio/orgs/${lastOrgSlug}/settings` : `/studio/orgs/${lastOrgSlug}/projects`;
 }
 
 /** Minimal shape of the API client needed to resolve the post-auth destination. */
@@ -99,7 +99,7 @@ export async function resolvePostAuthDestination(client: PostAuthClient): Promis
   }
   try {
     const { organizations } = await client.organizations.list();
-    if (organizations.length === 0) return "/onboarding";
+    if (organizations.length === 0) return "/studio/onboarding";
     const home = pickAccountBillingOrg(organizations)!;
     writeLastOrgSlug(home.slug);
     return defaultOrgDestination(home.slug);

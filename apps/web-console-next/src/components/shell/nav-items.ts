@@ -42,8 +42,8 @@ export function buildNavSections(scope: NavScope, soloMode: boolean = SOLO_MODE)
   const sections: NavSection[] = [];
   const orgSlug = scope.orgSlug ?? null;
   const projectSlug = scope.projectSlug ?? null;
-  const orgBase = orgSlug ? `/orgs/${orgSlug}` : null;
-  const projectBase = orgSlug && projectSlug ? `/orgs/${orgSlug}/projects/${projectSlug}` : null;
+  const orgBase = orgSlug ? `/studio/orgs/${orgSlug}` : null;
+  const projectBase = orgSlug && projectSlug ? `/studio/orgs/${orgSlug}/projects/${projectSlug}` : null;
 
   // The Workspace/Organizations section is intentionally omitted: the org
   // switcher at the top of the sidebar is the home for org selection (and links
@@ -94,12 +94,12 @@ export function buildNavSections(scope: NavScope, soloMode: boolean = SOLO_MODE)
 
 /**
  * Resolve the active link for a pathname: the longest matching `href` prefix
- * wins, so `/orgs/x/projects/y/environments` highlights Environments, not
- * Projects. `/orgs` (exact) only highlights when the path is exactly `/orgs`.
+ * wins, so `/studio/orgs/x/projects/y/environments` highlights Environments, not
+ * Projects. `/studio/orgs` (exact) only highlights when the path is exactly `/studio/orgs`.
  */
 export function isLinkActive(href: string, pathname: string | null): boolean {
   if (!pathname) return false;
-  if (href === "/orgs") return pathname === "/orgs";
-  if (href === "/account") return pathname === "/account";
+  if (href === "/studio/orgs") return pathname === "/studio/orgs";
+  if (href === "/studio/account") return pathname === "/studio/account";
   return pathname === href || pathname.startsWith(`${href}/`);
 }

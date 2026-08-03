@@ -49,7 +49,7 @@ export function MobileNav() {
             label="Profile"
             onClick={() => {
               close();
-              router.push("/account");
+              router.push("/studio/account");
             }}
           />
           <FooterButton
@@ -57,7 +57,7 @@ export function MobileNav() {
             label="Security activity"
             onClick={() => {
               close();
-              router.push("/account/security");
+              router.push("/studio/account/security");
             }}
           />
           <FooterButton

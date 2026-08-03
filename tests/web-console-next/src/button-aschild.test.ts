@@ -21,12 +21,12 @@ describe("Button asChild", () => {
       React.createElement(
         Button,
         { asChild: true },
-        React.createElement("a", { href: "/orgs/acme/settings/billing/change-plan" }, "Change plan"),
+        React.createElement("a", { href: "/studio/orgs/acme/settings/billing/change-plan" }, "Change plan"),
       ),
     );
     // Slot merges Button's classes onto the child <a> rather than throwing.
     expect(html).toContain("Change plan");
-    expect(html).toContain('href="/orgs/acme/settings/billing/change-plan"');
+    expect(html).toContain('href="/studio/orgs/acme/settings/billing/change-plan"');
     expect(html).toContain("<a ");
     expect(html).not.toContain("<button");
   });

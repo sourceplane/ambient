@@ -71,10 +71,10 @@ export function SidebarAccount() {
       </DropdownMenuTrigger>
       <DropdownMenuContent side="top" align="start" className="min-w-[220px]">
         {email && <DropdownMenuLabel className="truncate font-normal text-muted-foreground">{email}</DropdownMenuLabel>}
-        <DropdownMenuItem onSelect={() => router.push("/account")}>
+        <DropdownMenuItem onSelect={() => router.push("/studio/account")}>
           <User2 className="h-4 w-4 opacity-70" /> Profile
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => router.push("/account/security")}>
+        <DropdownMenuItem onSelect={() => router.push("/studio/account/security")}>
           <ShieldCheck className="h-4 w-4 opacity-70" /> Security activity
         </DropdownMenuItem>
         <DropdownMenuItem
