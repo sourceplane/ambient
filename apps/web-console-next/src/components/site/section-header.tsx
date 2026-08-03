@@ -20,11 +20,14 @@ export function SectionHeader({
   className,
 }: {
   title: string;
-  href?: string;
-  seeAllLabel?: string;
-  count?: number;
-  as?: "h1" | "h2" | "h3";
-  className?: string;
+  // Explicitly `| undefined` rather than bare optional: under
+  // `exactOptionalPropertyTypes` a caller passing `count={list?.length}` is
+  // passing `undefined`, which is exactly what "no count" means here.
+  href?: string | undefined;
+  seeAllLabel?: string | undefined;
+  count?: number | undefined;
+  as?: "h1" | "h2" | "h3" | undefined;
+  className?: string | undefined;
 }) {
   return (
     <div className={cn("mb-3 flex items-baseline justify-between gap-4", className)}>

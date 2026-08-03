@@ -57,7 +57,7 @@ export function PosterRail({
 
   return (
     <section className={cn("relative", className)}>
-      {title ? <SectionHeader title={title} {...(href ? { href } : {})} /> : null}
+      {title ? <SectionHeader title={title} href={href} /> : null}
 
       <div className="relative">
         <div
