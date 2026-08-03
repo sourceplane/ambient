@@ -246,5 +246,14 @@ export const manifest: MigrationManifest = {
       description:
         "Chart snapshots and popularity meters — immutable per-day rankings carrying previous_rank for delta arrows, plus the per-chart Bayesian parameters (minimum votes and prior mean) that define eligibility",
     },
+    {
+      id: "270_reviews_core",
+      context: "reviews",
+      path: "270_reviews_core/up.sql",
+      checksum:
+        "a72fd7fd4aa3bf74b05d82bced848b552726927406a0808ec23ecbe08110957c",
+      description:
+        "Reviews persistence foundation — user reviews with a partial one-live-review-per-user index, helpfulness votes with transactional counters, moderation state with an oldest-first queue index, critic reviews and the derived metascore band counts",
+    },
   ],
 };

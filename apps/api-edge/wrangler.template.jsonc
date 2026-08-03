@@ -109,6 +109,10 @@
         {
           "binding": "RATINGS_WORKER",
           "service": "ambient-ratings-worker-stage"
+        },
+        {
+          "binding": "REVIEWS_WORKER",
+          "service": "ambient-reviews-worker-stage"
         }
       ],
       "durable_objects": {
@@ -190,6 +194,10 @@
         {
           "binding": "RATINGS_WORKER",
           "service": "ambient-ratings-worker-prod"
+        },
+        {
+          "binding": "REVIEWS_WORKER",
+          "service": "ambient-reviews-worker-prod"
         }
       ],
       "durable_objects": {

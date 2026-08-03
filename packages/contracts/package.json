@@ -26,6 +26,7 @@
     "./catalog": "./src/catalog.ts",
     "./search": "./src/search.ts",
     "./ratings": "./src/ratings.ts",
+    "./reviews": "./src/reviews.ts",
     "./idempotency": "./src/idempotency.ts"
   },
   "scripts": {
