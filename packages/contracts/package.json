@@ -25,6 +25,7 @@
     "./integrations": "./src/integrations.ts",
     "./catalog": "./src/catalog.ts",
     "./search": "./src/search.ts",
+    "./ratings": "./src/ratings.ts",
     "./idempotency": "./src/idempotency.ts"
   },
   "scripts": {

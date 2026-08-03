@@ -7,13 +7,39 @@ import { createTimings } from "@saas/contracts/timing";
 
 // ── Route shapes ───────────────────────────────────────────────────────
 
+/**
+ * Sub-resources the catalog owns. Enumerated rather than matched with a
+ * wildcard because `/v1/titles/:id/…` is shared real estate — ratings, reviews
+ * and community facts all hang off the same prefix. A wildcard here would
+ * silently swallow their routes the moment they are added.
+ */
+const TITLE_SUFFIXES = [
+  "credits",
+  "akas",
+  "release-dates",
+  "certificates",
+  "keywords",
+  "companies",
+  "technical",
+  "box-office",
+  "connections",
+  "external-ids",
+  "images",
+  "videos",
+  "seasons",
+  "episodes",
+];
+
+const NAME_SUFFIXES = ["credits", "known-for", "images", "videos"];
+
+const TITLE_SUB_RE = /^\/v1\/titles\/[^/]+\/([a-z-]+)$/;
+const NAME_SUB_RE = /^\/v1\/names\/[^/]+\/([a-z-]+)$/;
+
 const PUBLIC_ROUTES: RegExp[] = [
   /^\/v1\/titles$/,
   /^\/v1\/titles\/[^/]+$/,
-  /^\/v1\/titles\/[^/]+\/[a-z-]+$/,
   /^\/v1\/names$/,
   /^\/v1\/names\/[^/]+$/,
-  /^\/v1\/names\/[^/]+\/[a-z-]+$/,
   /^\/v1\/companies\/[^/]+$/,
   /^\/v1\/companies\/[^/]+\/titles$/,
   /^\/v1\/keywords\/[^/]+$/,
@@ -69,6 +95,13 @@ export function cachePolicyFor(pathname: string): CachePolicy {
 
 export function isCatalogPublicRoute(pathname: string): boolean {
   if (CURATION_ROUTE_RE.test(pathname)) return false;
+
+  const titleSub = pathname.match(TITLE_SUB_RE);
+  if (titleSub) return TITLE_SUFFIXES.includes(titleSub[1]!);
+
+  const nameSub = pathname.match(NAME_SUB_RE);
+  if (nameSub) return NAME_SUFFIXES.includes(nameSub[1]!);
+
   return PUBLIC_ROUTES.some((re) => re.test(pathname));
 }
 

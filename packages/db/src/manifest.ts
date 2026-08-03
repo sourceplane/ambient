@@ -228,5 +228,23 @@ export const manifest: MigrationManifest = {
       description:
         "Search persistence foundation — denormalized documents with a weighted generated tsvector, trigram index for typeahead, and a JSONB facet column for advanced search; published by the owning context, never read across schemas",
     },
+    {
+      id: "250_ratings_core",
+      context: "ratings",
+      path: "250_ratings_core/up.sql",
+      checksum:
+        "b5fe57bd4eb351af44fdb2857de85e52a38d4e0c744eccc5322f369da7458d74",
+      description:
+        "Ratings persistence foundation — one vote per user per title with the demographic bands snapshotted at vote time, plus the per-title aggregate and histogram maintained transactionally alongside the vote rather than recomputed on read",
+    },
+    {
+      id: "260_ratings_charts",
+      context: "ratings",
+      path: "260_ratings_charts/up.sql",
+      checksum:
+        "60c4f43e7e3de62f1dee3769a38665ad0c8a8484c5fe0210fafdb24d438b08ba",
+      description:
+        "Chart snapshots and popularity meters — immutable per-day rankings carrying previous_rank for delta arrows, plus the per-chart Bayesian parameters (minimum votes and prior mean) that define eligibility",
+    },
   ],
 };

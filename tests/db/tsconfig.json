@@ -27,6 +27,7 @@
       "@saas/db/integrations": ["../../packages/db/src/integrations/index.ts"],
       "@saas/db/catalog": ["../../packages/db/src/catalog/index.ts"],
       "@saas/db/search": ["../../packages/db/src/search/index.ts"],
+      "@saas/db/ratings": ["../../packages/db/src/ratings/index.ts"],
       "@saas/db/ids": ["../../packages/db/src/ids/index.ts"]
     }
   },
