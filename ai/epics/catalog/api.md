@@ -24,14 +24,13 @@ existing conventions (`packages/contracts/src/errors.ts`,
 ```
 GET  /v1/titles                       list/browse (filters, cursor)
 GET  /v1/titles/:titleId              core record + primary image + aggregate
-GET  /v1/titles/:titleId/credits      cast + crew, ?category=&department=&limit=
-GET  /v1/titles/:titleId/cast         billed cast, ordered
+GET  /v1/titles/:titleId/credits      cast + crew, ?category=cast|crew&department=&limit=
 GET  /v1/titles/:titleId/akas
 GET  /v1/titles/:titleId/release-dates
 GET  /v1/titles/:titleId/certificates
 GET  /v1/titles/:titleId/keywords
 GET  /v1/titles/:titleId/companies
-GET  /v1/titles/:titleId/technical-specs
+GET  /v1/titles/:titleId/technical
 GET  /v1/titles/:titleId/box-office
 GET  /v1/titles/:titleId/connections
 GET  /v1/titles/:titleId/external-ids
@@ -64,21 +63,31 @@ GET  /v1/keywords/:keywordSlug/titles
 
 ### Curation — authenticated, policy `catalog.*`
 
+Curation is editorial rather than per-tenant — the catalog is one shared
+public database — but *who may edit it* still has to come from somewhere,
+and the platform already has exactly one answer: org membership evaluated
+by the policy worker. So curation routes are scoped to the **editorial
+organization** the actor is acting on behalf of. Reads bypass all of it.
+
 ```
-POST   /v1/titles                     create (staff/editor)
-PATCH  /v1/titles/:titleId
-DELETE /v1/titles/:titleId            archive
-POST   /v1/titles/:titleId/credits
-PATCH  /v1/credits/:creditId
-DELETE /v1/credits/:creditId
-POST   /v1/names                      + PATCH/DELETE /v1/names/:nameId
-POST   /v1/titles/:titleId/images     + DELETE /v1/images/:imageId
-POST   /v1/titles/:titleId/videos     + DELETE /v1/videos/:videoId
-POST   /v1/titles/:titleId/episodes
+POST   /v1/organizations/:orgId/catalog/titles
+PATCH  /v1/organizations/:orgId/catalog/titles/:titleId
+DELETE /v1/organizations/:orgId/catalog/titles/:titleId       archive
+POST   /v1/organizations/:orgId/catalog/titles/:titleId/credits
+POST   /v1/organizations/:orgId/catalog/titles/:titleId/images
+POST   /v1/organizations/:orgId/catalog/titles/:titleId/videos
+POST   /v1/organizations/:orgId/catalog/titles/:titleId/episodes
+DELETE /v1/organizations/:orgId/catalog/credits/:creditId
+POST   /v1/organizations/:orgId/catalog/names
+PATCH  /v1/organizations/:orgId/catalog/names/:nameId
+DELETE /v1/organizations/:orgId/catalog/names/:nameId         archive
 ```
 
-Policy actions: `catalog.title.create|update|archive`,
-`catalog.credit.write`, `catalog.person.write`, `catalog.media.write`.
+Policy actions: `catalog.title.write`, `catalog.title.archive`,
+`catalog.person.write`, `catalog.person.archive`,
+`catalog.credit.write`, `catalog.media.write`, `catalog.episode.write`.
+Granted to `owner` and `admin` in full; `builder` gets the write actions
+but not the archive ones. A denial is a 404, like the rest of the fleet.
 
 ---
 

@@ -57,7 +57,8 @@ export type RouteFamily =
   | "billing"
   | "audit"
   | "notifications"
-  | "integrations";
+  | "integrations"
+  | "catalog";
 
 interface BucketLimits {
   /** Bucket capacity (max tokens). */
@@ -119,6 +120,15 @@ const LIMITS: Record<RouteFamily, FamilyConfig> = {
   integrations: {
     identity: { limit: 60, windowSec: 60 },
     org: { limit: 300, windowSec: 60 },
+  },
+  // The public catalog read surface is anonymous, so the identity bucket is
+  // keyed by client IP. A poster grid legitimately fans out to a dozen
+  // requests, so the cap is well above the authenticated families; the ETag +
+  // Cache-Control layer absorbs the repeat traffic that would otherwise reach
+  // it at all.
+  catalog: {
+    identity: { limit: 300, windowSec: 60 },
+    org: { limit: 600, windowSec: 60 },
   },
 };
 

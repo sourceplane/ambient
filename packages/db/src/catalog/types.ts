@@ -609,6 +609,8 @@ export interface CatalogRepository {
   listAkas(titleId: Uuid): Promise<CatalogResult<TitleAka[]>>;
   replaceAkas(titleId: Uuid, akas: Omit<TitleAka, "id" | "titleId">[]): Promise<CatalogResult<TitleAka[]>>;
   listGenres(titleId: Uuid): Promise<CatalogResult<TitleGenre[]>>;
+  /** Genres for many titles at once — one query per rail, not per poster. */
+  getGenresByTitleIds(titleIds: string[]): Promise<CatalogResult<Map<string, TitleGenre[]>>>;
   setGenres(titleId: Uuid, genreSlugs: string[]): Promise<CatalogResult<TitleGenre[]>>;
   listAllGenres(): Promise<CatalogResult<Genre[]>>;
   listReleaseDates(titleId: Uuid): Promise<CatalogResult<TitleReleaseDate[]>>;
@@ -671,6 +673,7 @@ export interface CatalogRepository {
   listTitleImages(titleId: Uuid, kind: ImageKind | null, limit: number): Promise<CatalogResult<Image[]>>;
   listPersonImages(personId: Uuid, limit: number): Promise<CatalogResult<Image[]>>;
   getPrimaryImages(titleIds: string[]): Promise<CatalogResult<Map<string, Image>>>;
+  getPrimaryPersonImages(personIds: string[]): Promise<CatalogResult<Map<string, Image>>>;
   createVideo(input: CreateVideoInput): Promise<CatalogResult<Video>>;
   listTitleVideos(titleId: Uuid, limit: number): Promise<CatalogResult<Video[]>>;
   listPersonVideos(personId: Uuid, limit: number): Promise<CatalogResult<Video[]>>;

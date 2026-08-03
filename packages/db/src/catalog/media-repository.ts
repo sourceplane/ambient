@@ -68,6 +68,7 @@ export interface MediaRepositoryPart {
   listTitleImages(titleId: Uuid, kind: ImageKind | null, limit: number): Promise<CatalogResult<Image[]>>;
   listPersonImages(personId: Uuid, limit: number): Promise<CatalogResult<Image[]>>;
   getPrimaryImages(titleIds: string[]): Promise<CatalogResult<Map<string, Image>>>;
+  getPrimaryPersonImages(personIds: string[]): Promise<CatalogResult<Map<string, Image>>>;
   createVideo(input: CreateVideoInput): Promise<CatalogResult<Video>>;
   listTitleVideos(titleId: Uuid, limit: number): Promise<CatalogResult<Video[]>>;
   listPersonVideos(personId: Uuid, limit: number): Promise<CatalogResult<Video[]>>;
@@ -402,6 +403,26 @@ export function createMediaRepository(executor: SqlExecutor): MediaRepositoryPar
         return { ok: true, value: map };
       } catch {
         return internalError("Failed to load primary images");
+      }
+    },
+
+    async getPrimaryPersonImages(personIds) {
+      if (personIds.length === 0) return { ok: true, value: new Map() };
+      try {
+        const result = await executor.execute(
+          `SELECT pi.person_id, ${imageColumns("i")}, pi.ordering, pi.is_primary
+             FROM catalog.person_images pi
+             JOIN catalog.images i ON i.id = pi.image_id
+            WHERE pi.person_id = ANY($1::uuid[]) AND pi.is_primary`,
+          [personIds],
+        );
+        const map = new Map<string, Image>();
+        for (const row of result.rows) {
+          map.set(row.person_id as string, mapImage(row));
+        }
+        return { ok: true, value: map };
+      } catch {
+        return internalError("Failed to load headshots");
       }
     },
 
