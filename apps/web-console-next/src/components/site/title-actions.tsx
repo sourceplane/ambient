@@ -23,9 +23,17 @@ import { RatingStars } from "./rating-pill";
  */
 export function WatchlistButton({
   titleId,
+  compact = false,
   className,
 }: {
   titleId: string;
+  /**
+   * Icon-only, for a row in a list. On a chart of 250 titles the full label
+   * repeated down the page is the loudest thing on screen and says the same
+   * thing 250 times; on a title page, where there is one of them and it is a
+   * primary action, the words earn their space.
+   */
+  compact?: boolean;
   className?: string;
 }) {
   const { token } = useSession();
@@ -60,31 +68,43 @@ export function WatchlistButton({
 
   const on = membership.data?.onWatchlist ?? false;
 
+  const shape = compact
+    ? "h-9 w-9 justify-center rounded-full p-0"
+    : "gap-2 rounded-full px-4 py-2 text-sm font-semibold";
+
   if (!token) {
     return (
       <button
         type="button"
         onClick={() => router.push("/login")}
+        aria-label={compact ? "Sign in to add to your watchlist" : undefined}
+        title={compact ? "Sign in to add to your watchlist" : undefined}
         className={cn(
-          "site-focus site-hairline site-surface-2 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold",
+          "site-focus site-hairline site-surface-2 inline-flex items-center border",
+          shape,
           className,
         )}
       >
         <Bookmark className="h-4 w-4" aria-hidden="true" />
-        Sign in to add to watchlist
+        {compact ? null : "Sign in to add to watchlist"}
       </button>
     );
   }
+
+  const label = on ? "On your watchlist" : "Add to watchlist";
 
   return (
     <button
       type="button"
       onClick={() => toggle.mutate(!on)}
       aria-pressed={on}
+      aria-label={compact ? label : undefined}
+      title={compact ? label : undefined}
       disabled={membership.isLoading}
       className={cn(
-        "site-focus inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+        "site-focus inline-flex items-center transition-colors",
         on ? "site-accent-bg" : "site-hairline site-surface-2 border",
+        shape,
         className,
       )}
     >
@@ -93,7 +113,7 @@ export function WatchlistButton({
       ) : (
         <Bookmark className="h-4 w-4" aria-hidden="true" />
       )}
-      {on ? "On your watchlist" : "Add to watchlist"}
+      {compact ? null : label}
     </button>
   );
 }

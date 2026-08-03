@@ -36,6 +36,13 @@ import {
 } from "./commands/notification-preferences.js";
 import { integrationsGithubTokenCommand } from "./commands/integrations-token.js";
 import {
+  catalogChartCommand,
+  catalogCreditsCommand,
+  catalogNameCommand,
+  catalogSearchCommand,
+  catalogTitleCommand,
+} from "./commands/catalog.js";
+import {
   usageSummaryCommand,
   billingSummaryCommand,
   auditListCommand,
@@ -192,6 +199,12 @@ function buildRouter(opts: RunOptions): Router {
   r.register(["notifications", "preferences"], "Show your email notification preferences for an org", notificationPreferencesGetCommand);
   r.register(["notifications", "preferences", "set"], "Enable/disable an email notification category", notificationPreferencesSetCommand);
   r.register(["integrations", "github", "token"], "Mint a short-lived, repo-scoped GitHub installation token", integrationsGithubTokenCommand);
+  // Catalog reads. Public routes — these work signed out.
+  r.register(["catalog", "search"], "Search titles, people and keywords", catalogSearchCommand);
+  r.register(["catalog", "title"], "Show a title by public id (tt_…)", catalogTitleCommand);
+  r.register(["catalog", "credits"], "List a title's cast and crew", catalogCreditsCommand);
+  r.register(["catalog", "name"], "Show a person by public id (nm_…)", catalogNameCommand);
+  r.register(["catalog", "chart"], "Show a chart (top_movies, most_popular_tv, …)", catalogChartCommand);
   return r;
 }
 
@@ -240,6 +253,13 @@ function printHelp(stdout: (line: string) => void): void {
       "",
       "SECURITY:",
       `  ${CLI_BIN} security events [--limit=N] [--cursor=CURSOR] [--all] [--output=human|json]`,
+      "",
+      "CATALOG (public — no sign-in required):",
+      `  ${CLI_BIN} catalog search <query> [--type=title|person|company|keyword] [--limit=N]`,
+      `  ${CLI_BIN} catalog title <tt_id>`,
+      `  ${CLI_BIN} catalog credits <tt_id> [--category=cast|crew] [--limit=N]`,
+      `  ${CLI_BIN} catalog name <nm_id>`,
+      `  ${CLI_BIN} catalog chart <chart-key> [--limit=N]`,
       "",
       "GLOBAL FLAGS:",
       "  --output=human|json   Output format (default: human)",

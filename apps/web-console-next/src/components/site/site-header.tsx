@@ -38,6 +38,14 @@ export function SiteHeader({ watchlistCount }: { watchlistCount?: number }) {
   const [scrolled, setScrolled] = React.useState(false);
   const [drawer, setDrawer] = React.useState(false);
 
+  // `resolvedTheme` is undefined during SSR and known on the client, so reading
+  // it while rendering makes the server emit one icon and the client another —
+  // a hydration mismatch on every page that has a header. Render the
+  // server-side shape until mounted, then swap.
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+  const dark = mounted && resolvedTheme === "dark";
+
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
     onScroll();
@@ -108,15 +116,11 @@ export function SiteHeader({ watchlistCount }: { watchlistCount?: number }) {
 
           <button
             type="button"
-            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-            aria-label={resolvedTheme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+            onClick={() => setTheme(dark ? "light" : "dark")}
+            aria-label={mounted ? (dark ? "Switch to light theme" : "Switch to dark theme") : "Toggle theme"}
             className="site-focus rounded p-2 hover:site-accent"
           >
-            {resolvedTheme === "dark" ? (
-              <Sun className="h-4 w-4" />
-            ) : (
-              <Moon className="h-4 w-4" />
-            )}
+            {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
 
           {token ? (

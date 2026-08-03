@@ -302,6 +302,9 @@ export const reviewsApi = {
 
   metascore: (titleId: string) => get<GetMetascoreResponse>(`/v1/titles/${titleId}/metascore`),
 
+  /** A user's published reviews — the review half of a public profile. */
+  userReviews: (userId: string) => get<ListReviewsResponse>(`/v1/users/${userId}/reviews`),
+
   create: (titleId: string, payload: unknown, token: string) =>
     mutate<{ review: unknown }>("POST", `/v1/titles/${titleId}/reviews`, token, payload),
 
@@ -326,6 +329,13 @@ export const listsApi = {
     mutate<WatchlistMembershipResponse>("DELETE", `/v1/me/watchlist/${entityId}`, token),
 
   myLists: (token: string) => get<ListListsResponse>("/v1/me/lists", token),
+
+  /**
+   * Another user's lists. The token is optional and identity-changing: the API
+   * returns the public ones to anyone and adds unlisted ones to their owner.
+   */
+  userLists: (userId: string, token?: string | null) =>
+    get<ListListsResponse>(`/v1/users/${userId}/lists`, token),
 
   getList: (listId: string, token?: string | null) =>
     get<GetListResponse>(`/v1/lists/${listId}`, token),

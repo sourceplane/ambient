@@ -18,8 +18,12 @@ Nothing about the platform substrate is thrown away. Identity becomes
 the account system; policy becomes the moderation/permission model;
 events becomes the contribution audit trail; metering and rate limiting
 protect the public read surface; notifications drive watchlist and
-contribution mail. The SaaS control plane keeps working — it moves under
-`/studio` and is what staff and API partners use.
+contribution mail. The SaaS control plane keeps working — the site takes
+the root and the console gains `/studio` as its front door, with every
+one of its existing routes (`/orgs`, `/account`, `/login`,
+`/onboarding`) untouched. Moving them would have broken every link and
+bookmark an operator has for no gain; taking `/` was the only change the
+product actually needed.
 
 ---
 

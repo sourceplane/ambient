@@ -1,4 +1,5 @@
 import type { SqlExecutor } from "../hyperdrive/executor.js";
+import { inList } from "../hyperdrive/in-list.js";
 import type { Uuid } from "../ids/index.js";
 import {
   internalError,
@@ -384,6 +385,7 @@ export function createMediaRepository(executor: SqlExecutor): MediaRepositoryPar
 
     async getPrimaryImages(titleIds) {
       if (titleIds.length === 0) return { ok: true, value: new Map() };
+      const titleValues: unknown[] = [];
       try {
         // One query for a whole rail of posters — the N+1 this avoids is the
         // difference between a fast grid and a dead one.
@@ -393,8 +395,8 @@ export function createMediaRepository(executor: SqlExecutor): MediaRepositoryPar
                   ti.ordering, ti.is_primary
              FROM catalog.title_images ti
              JOIN catalog.images i ON i.id = ti.image_id
-            WHERE ti.title_id = ANY($1::uuid[]) AND ti.is_primary`,
-          [titleIds],
+            WHERE ti.title_id IN (${inList(titleIds, titleValues, "uuid")}) AND ti.is_primary`,
+          titleValues,
         );
         const map = new Map<string, Image>();
         for (const row of result.rows) {
@@ -408,13 +410,14 @@ export function createMediaRepository(executor: SqlExecutor): MediaRepositoryPar
 
     async getPrimaryPersonImages(personIds) {
       if (personIds.length === 0) return { ok: true, value: new Map() };
+      const personValues: unknown[] = [];
       try {
         const result = await executor.execute(
           `SELECT pi.person_id, ${imageColumns("i")}, pi.ordering, pi.is_primary
              FROM catalog.person_images pi
              JOIN catalog.images i ON i.id = pi.image_id
-            WHERE pi.person_id = ANY($1::uuid[]) AND pi.is_primary`,
-          [personIds],
+            WHERE pi.person_id IN (${inList(personIds, personValues, "uuid")}) AND pi.is_primary`,
+          personValues,
         );
         const map = new Map<string, Image>();
         for (const row of result.rows) {

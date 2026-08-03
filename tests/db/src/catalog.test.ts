@@ -176,7 +176,10 @@ describe("CatalogRepository — titles", () => {
 
     await repo.listTitlesPaged({}, { limit: 20, cursor: null });
 
-    expect(queries[0]!.params[0]).toEqual(["published"]);
+    // Bound as a scalar, not as a one-element array: an array parameter
+    // throws at bind time under `fetch_types: false`.
+    expect(queries[0]!.params[0]).toBe("published");
+    expect(queries[0]!.text).toContain("t.status IN ($1)");
     expect(queries[0]!.text).toContain("t.is_adult = FALSE");
   });
 

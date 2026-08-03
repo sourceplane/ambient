@@ -1,4 +1,5 @@
 import type { SqlExecutor } from "../hyperdrive/executor.js";
+import { inList } from "../hyperdrive/in-list.js";
 import type {
   DocumentFilters,
   SearchEntityType,
@@ -118,8 +119,7 @@ export function createSearchRepository(executor: SqlExecutor): SearchRepository 
       const values: unknown[] = [trimmed];
       const where: string[] = [];
       if (types && types.length > 0) {
-        values.push(types);
-        where.push(`entity_type = ANY($${values.length}::text[])`);
+        where.push(`entity_type IN (${inList(types, values)})`);
       }
       const tsquery = toPrefixTsQuery(trimmed);
       if (tsquery) {
@@ -160,8 +160,7 @@ export function createSearchRepository(executor: SqlExecutor): SearchRepository 
       const values: unknown[] = [tsquery, trimmed];
       const where: string[] = [`document @@ to_tsquery('simple', $1)`];
       if (types && types.length > 0) {
-        values.push(types);
-        where.push(`entity_type = ANY($${values.length}::text[])`);
+        where.push(`entity_type IN (${inList(types, values)})`);
       }
       values.push(limit, offset);
 
@@ -206,8 +205,7 @@ export function createSearchRepository(executor: SqlExecutor): SearchRepository 
       pushArrayOverlap(where, values, "companies", query.companies);
 
       if (query.kinds && query.kinds.length > 0) {
-        values.push(query.kinds);
-        where.push(`filters ->> 'kind' = ANY($${values.length}::text[])`);
+        where.push(`filters ->> 'kind' IN (${inList(query.kinds, values)})`);
       }
       pushNumericRange(where, values, "year", query.yearFrom, query.yearTo);
       pushNumericRange(where, values, "rating", query.ratingFrom, query.ratingTo);

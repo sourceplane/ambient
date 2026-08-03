@@ -1,4 +1,5 @@
 import type { SqlExecutor, TransactionalSqlExecutor } from "../hyperdrive/executor.js";
+import { inList } from "../hyperdrive/in-list.js";
 import { DEMOGRAPHIC_PRIVACY_FLOOR } from "./types.js";
 import type {
   AgeBand,
@@ -286,12 +287,13 @@ export function createRatingsRepository(
 
     async getUserRatingsFor(userId, titleIds) {
       if (titleIds.length === 0) return { ok: true, value: new Map() };
+      const values: unknown[] = [userId];
       try {
         // One query for a whole grid's "your rating" column.
         const result = await executor.execute(
           `SELECT title_id, value FROM ratings.user_ratings
-            WHERE user_id = $1 AND title_id = ANY($2::uuid[])`,
-          [userId, titleIds],
+            WHERE user_id = $1 AND title_id IN (${inList(titleIds, values, "uuid")})`,
+          values,
         );
         const map = new Map<string, number>();
         for (const row of result.rows) map.set(row.title_id as string, num(row.value));
@@ -311,11 +313,12 @@ export function createRatingsRepository(
 
     async getAggregates(titleIds) {
       if (titleIds.length === 0) return { ok: true, value: new Map() };
+      const values: unknown[] = [];
       try {
         const result = await executor.execute(
           `SELECT ${AGGREGATE_COLUMNS} FROM ratings.title_aggregates
-            WHERE title_id = ANY($1::uuid[])`,
-          [titleIds],
+            WHERE title_id IN (${inList(titleIds, values, "uuid")})`,
+          values,
         );
         const map = new Map<string, TitleAggregate>();
         for (const row of result.rows) {

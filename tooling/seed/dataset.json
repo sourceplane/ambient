@@ -1,0 +1,307 @@
+{
+  "$comment": "Seed dataset for the catalog. Titles and people are real works and real credits, entered as plain factual records — title, year, runtime, genre, who directed and who starred. No artwork is included: the curation API requires a real http(s) image URL, and this dataset does not ship one. Add `images` entries pointing at a host you control if you want posters.",
+  "people": [
+    {
+      "key": "villeneuve",
+      "name": "Denis Villeneuve",
+      "professions": ["director", "writer", "producer"],
+      "birthDate": "1967-10-03",
+      "birthPlace": "Bécancour, Quebec, Canada"
+    },
+    {
+      "key": "adams",
+      "name": "Amy Adams",
+      "professions": ["actress", "producer"],
+      "birthDate": "1974-08-20",
+      "birthPlace": "Vicenza, Veneto, Italy"
+    },
+    {
+      "key": "renner",
+      "name": "Jeremy Renner",
+      "professions": ["actor", "producer"],
+      "birthDate": "1971-01-07",
+      "birthPlace": "Modesto, California, USA"
+    },
+    {
+      "key": "chalamet",
+      "name": "Timothée Chalamet",
+      "professions": ["actor"],
+      "birthDate": "1995-12-27",
+      "birthPlace": "New York City, New York, USA"
+    },
+    {
+      "key": "ferguson",
+      "name": "Rebecca Ferguson",
+      "professions": ["actress"],
+      "birthDate": "1983-10-19",
+      "birthPlace": "Stockholm, Sweden"
+    },
+    {
+      "key": "gosling",
+      "name": "Ryan Gosling",
+      "professions": ["actor", "producer"],
+      "birthDate": "1980-11-12",
+      "birthPlace": "London, Ontario, Canada"
+    },
+    {
+      "key": "ford",
+      "name": "Harrison Ford",
+      "professions": ["actor", "producer"],
+      "birthDate": "1942-07-13",
+      "birthPlace": "Chicago, Illinois, USA"
+    },
+    {
+      "key": "nolan",
+      "name": "Christopher Nolan",
+      "professions": ["director", "writer", "producer"],
+      "birthDate": "1970-07-30",
+      "birthPlace": "London, England, UK"
+    },
+    {
+      "key": "mcconaughey",
+      "name": "Matthew McConaughey",
+      "professions": ["actor", "producer"],
+      "birthDate": "1969-11-04",
+      "birthPlace": "Uvalde, Texas, USA"
+    },
+    {
+      "key": "hathaway",
+      "name": "Anne Hathaway",
+      "professions": ["actress", "producer"],
+      "birthDate": "1982-11-12",
+      "birthPlace": "New York City, New York, USA"
+    },
+    {
+      "key": "murphy",
+      "name": "Cillian Murphy",
+      "professions": ["actor"],
+      "birthDate": "1976-05-25",
+      "birthPlace": "Douglas, Cork, Ireland"
+    },
+    {
+      "key": "blunt",
+      "name": "Emily Blunt",
+      "professions": ["actress"],
+      "birthDate": "1983-02-23",
+      "birthPlace": "London, England, UK"
+    },
+    {
+      "key": "gerwig",
+      "name": "Greta Gerwig",
+      "professions": ["director", "writer", "actress"],
+      "birthDate": "1983-08-04",
+      "birthPlace": "Sacramento, California, USA"
+    },
+    {
+      "key": "ronan",
+      "name": "Saoirse Ronan",
+      "professions": ["actress"],
+      "birthDate": "1994-04-12",
+      "birthPlace": "The Bronx, New York, USA"
+    },
+    {
+      "key": "bong",
+      "name": "Bong Joon Ho",
+      "professions": ["director", "writer", "producer"],
+      "birthDate": "1969-09-14",
+      "birthPlace": "Daegu, South Korea"
+    },
+    {
+      "key": "songkangho",
+      "name": "Song Kang-ho",
+      "professions": ["actor"],
+      "birthDate": "1967-01-17",
+      "birthPlace": "Gimhae, South Korea"
+    },
+    {
+      "key": "gilligan",
+      "name": "Vince Gilligan",
+      "professions": ["writer", "producer", "director"],
+      "birthDate": "1967-02-10",
+      "birthPlace": "Richmond, Virginia, USA"
+    },
+    {
+      "key": "cranston",
+      "name": "Bryan Cranston",
+      "professions": ["actor", "director"],
+      "birthDate": "1956-03-07",
+      "birthPlace": "Hollywood, California, USA"
+    },
+    {
+      "key": "paul",
+      "name": "Aaron Paul",
+      "professions": ["actor"],
+      "birthDate": "1979-08-27",
+      "birthPlace": "Emmett, Idaho, USA"
+    },
+    {
+      "key": "hbomb",
+      "name": "Craig Mazin",
+      "professions": ["writer", "producer"],
+      "birthDate": "1971-04-08",
+      "birthPlace": "Brooklyn, New York, USA"
+    }
+  ],
+  "titles": [
+    {
+      "kind": "movie",
+      "primaryTitle": "Arrival",
+      "startYear": 2016,
+      "runtimeMinutes": 116,
+      "genres": ["drama", "science-fiction", "mystery"],
+      "tagline": "Why are they here?",
+      "plotOutline": "A linguist is recruited by the military to communicate with alien lifeforms after twelve mysterious spacecraft land around the world.",
+      "credits": [
+        { "person": "villeneuve", "category": "crew", "department": "directing", "job": "Director" },
+        { "person": "adams", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Louise Banks"], "billingOrder": 1 },
+        { "person": "renner", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Ian Donnelly"], "billingOrder": 2 }
+      ]
+    },
+    {
+      "kind": "movie",
+      "primaryTitle": "Dune",
+      "startYear": 2021,
+      "runtimeMinutes": 155,
+      "genres": ["action", "adventure", "science-fiction"],
+      "tagline": "Beyond fear, destiny awaits.",
+      "plotOutline": "Paul Atreides leads nomadic tribes in a revolt against the galactic emperor and his father's evil nemesis.",
+      "credits": [
+        { "person": "villeneuve", "category": "crew", "department": "directing", "job": "Director" },
+        { "person": "chalamet", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Paul Atreides"], "billingOrder": 1 },
+        { "person": "ferguson", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Lady Jessica"], "billingOrder": 2 }
+      ]
+    },
+    {
+      "kind": "movie",
+      "primaryTitle": "Blade Runner 2049",
+      "startYear": 2017,
+      "runtimeMinutes": 164,
+      "genres": ["drama", "mystery", "science-fiction"],
+      "tagline": "There is an order to things.",
+      "plotOutline": "A young blade runner's discovery of a long-buried secret leads him to track down former blade runner Rick Deckard, missing for thirty years.",
+      "credits": [
+        { "person": "villeneuve", "category": "crew", "department": "directing", "job": "Director" },
+        { "person": "gosling", "category": "cast", "department": "cast", "job": "Actor", "characters": ["K"], "billingOrder": 1 },
+        { "person": "ford", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Rick Deckard"], "billingOrder": 2 }
+      ]
+    },
+    {
+      "kind": "movie",
+      "primaryTitle": "Interstellar",
+      "startYear": 2014,
+      "runtimeMinutes": 169,
+      "genres": ["adventure", "drama", "science-fiction"],
+      "tagline": "Mankind was born on Earth. It was never meant to die here.",
+      "plotOutline": "When Earth becomes uninhabitable, a farmer and ex-NASA pilot is tasked to pilot a spacecraft to find a new planet for humans.",
+      "credits": [
+        { "person": "nolan", "category": "crew", "department": "directing", "job": "Director" },
+        { "person": "mcconaughey", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Cooper"], "billingOrder": 1 },
+        { "person": "hathaway", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Brand"], "billingOrder": 2 }
+      ]
+    },
+    {
+      "kind": "movie",
+      "primaryTitle": "Oppenheimer",
+      "startYear": 2023,
+      "runtimeMinutes": 180,
+      "genres": ["biography", "drama", "history"],
+      "tagline": "The world forever changes.",
+      "plotOutline": "The story of J. Robert Oppenheimer's role in the development of the atomic bomb during World War II.",
+      "credits": [
+        { "person": "nolan", "category": "crew", "department": "directing", "job": "Director" },
+        { "person": "murphy", "category": "cast", "department": "cast", "job": "Actor", "characters": ["J. Robert Oppenheimer"], "billingOrder": 1 },
+        { "person": "blunt", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Kitty Oppenheimer"], "billingOrder": 2 }
+      ]
+    },
+    {
+      "kind": "movie",
+      "primaryTitle": "Lady Bird",
+      "startYear": 2017,
+      "runtimeMinutes": 94,
+      "genres": ["comedy", "drama"],
+      "plotOutline": "A high-school senior navigates a turbulent relationship with her mother over the course of her final year in Sacramento.",
+      "credits": [
+        { "person": "gerwig", "category": "crew", "department": "directing", "job": "Director" },
+        { "person": "ronan", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Christine \"Lady Bird\" McPherson"], "billingOrder": 1 }
+      ]
+    },
+    {
+      "kind": "movie",
+      "primaryTitle": "Parasite",
+      "startYear": 2019,
+      "runtimeMinutes": 132,
+      "genres": ["drama", "thriller"],
+      "tagline": "Act like you own the place.",
+      "plotOutline": "Greed and class discrimination threaten the newly formed symbiotic relationship between a wealthy family and a destitute clan.",
+      "credits": [
+        { "person": "bong", "category": "crew", "department": "directing", "job": "Director" },
+        { "person": "songkangho", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Kim Ki-taek"], "billingOrder": 1 }
+      ]
+    },
+    {
+      "kind": "movie",
+      "primaryTitle": "Sicario",
+      "startYear": 2015,
+      "runtimeMinutes": 121,
+      "genres": ["action", "crime", "drama"],
+      "tagline": "The border is just another line to cross.",
+      "plotOutline": "An idealistic FBI agent is enlisted by a government task force to aid in the escalating war against drugs at the border.",
+      "credits": [
+        { "person": "villeneuve", "category": "crew", "department": "directing", "job": "Director" },
+        { "person": "blunt", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Kate Macer"], "billingOrder": 1 }
+      ]
+    },
+    {
+      "kind": "movie",
+      "primaryTitle": "La La Land",
+      "startYear": 2016,
+      "runtimeMinutes": 128,
+      "genres": ["comedy", "drama", "music"],
+      "tagline": "Here's to the fools who dream.",
+      "plotOutline": "A jazz pianist and an aspiring actress fall in love while pursuing their dreams in Los Angeles.",
+      "credits": [
+        { "person": "gosling", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Sebastian"], "billingOrder": 1 }
+      ]
+    },
+    {
+      "kind": "tv_series",
+      "primaryTitle": "Breaking Bad",
+      "startYear": 2008,
+      "endYear": 2013,
+      "runtimeMinutes": 49,
+      "genres": ["crime", "drama", "thriller"],
+      "tagline": "All bad things must come to an end.",
+      "plotOutline": "A chemistry teacher diagnosed with terminal cancer turns to manufacturing methamphetamine to secure his family's future.",
+      "credits": [
+        { "person": "gilligan", "category": "crew", "department": "writing", "job": "Creator" },
+        { "person": "cranston", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Walter White"], "billingOrder": 1, "episodeCount": 62 },
+        { "person": "paul", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Jesse Pinkman"], "billingOrder": 2, "episodeCount": 62 }
+      ]
+    },
+    {
+      "kind": "tv_mini_series",
+      "primaryTitle": "Chernobyl",
+      "startYear": 2019,
+      "endYear": 2019,
+      "runtimeMinutes": 62,
+      "genres": ["drama", "history", "thriller"],
+      "tagline": "What is the cost of lies?",
+      "plotOutline": "A dramatisation of the 1986 nuclear accident and the people who responded to it.",
+      "credits": [
+        { "person": "hbomb", "category": "crew", "department": "writing", "job": "Creator" }
+      ]
+    },
+    {
+      "kind": "movie",
+      "primaryTitle": "Little Women",
+      "startYear": 2019,
+      "runtimeMinutes": 135,
+      "genres": ["drama", "romance"],
+      "plotOutline": "Four sisters come of age in the aftermath of the American Civil War.",
+      "credits": [
+        { "person": "gerwig", "category": "crew", "department": "directing", "job": "Director" },
+        { "person": "ronan", "category": "cast", "department": "cast", "job": "Actor", "characters": ["Jo March"], "billingOrder": 1 }
+      ]
+    }
+  ]
+}

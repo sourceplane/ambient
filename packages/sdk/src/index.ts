@@ -12,6 +12,14 @@
 
 import { ApiKeysClient } from "./apiKeys.js";
 import { AuthClient } from "./auth.js";
+import { CatalogClient } from "./catalog.js";
+import {
+  CommunityClient,
+  ListsClient,
+  RatingsClient,
+  ReviewsClient,
+  SearchClient,
+} from "./discovery.js";
 import { IntegrationsClient } from "./integrations.js";
 import { BillingClient } from "./billing.js";
 import { ConfigClient } from "./config.js";
@@ -41,6 +49,14 @@ export class ambient {
   readonly notifications: NotificationsClient;
   readonly auth: AuthClient;
   readonly integrations: IntegrationsClient;
+  // Catalog and its satellites. These are the product surface; everything
+  // above is the platform the product runs on.
+  readonly catalog: CatalogClient;
+  readonly search: SearchClient;
+  readonly ratings: RatingsClient;
+  readonly reviews: ReviewsClient;
+  readonly lists: ListsClient;
+  readonly community: CommunityClient;
   /** Underlying HTTP transport. Exposed for advanced extension. */
   readonly transport: Transport;
 
@@ -60,6 +76,12 @@ export class ambient {
     this.notifications = new NotificationsClient(this.transport);
     this.auth = new AuthClient(this.transport);
     this.integrations = new IntegrationsClient(this.transport);
+    this.catalog = new CatalogClient(this.transport);
+    this.search = new SearchClient(this.transport);
+    this.ratings = new RatingsClient(this.transport);
+    this.reviews = new ReviewsClient(this.transport);
+    this.lists = new ListsClient(this.transport);
+    this.community = new CommunityClient(this.transport);
   }
 }
 
@@ -98,6 +120,14 @@ export { ConfigClient, type ConfigScope } from "./config.js";
 export { NotificationsClient } from "./notifications.js";
 export { AuthClient } from "./auth.js";
 export { IntegrationsClient } from "./integrations.js";
+export { CatalogClient } from "./catalog.js";
+export {
+  SearchClient,
+  RatingsClient,
+  ReviewsClient,
+  ListsClient,
+  CommunityClient,
+} from "./discovery.js";
 
 // Transport surface.
 export {
