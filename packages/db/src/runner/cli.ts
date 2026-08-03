@@ -68,7 +68,9 @@ function parseArgs(argv: string[]): ParsedArgs {
 
 async function resolveAdapter(
   mode: RunMode,
-  env: string,
+  // The environment is already encoded in the wired credentials the adapter
+  // loads; kept in the signature so callers read symmetrically with parseArgs.
+  _env: string,
 ): Promise<MigrationAdapter | null> {
   if (mode === "plan") {
     return null;
