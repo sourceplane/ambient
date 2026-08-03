@@ -25,6 +25,7 @@
     "./ratings": "./src/ratings/index.ts",
     "./reviews": "./src/reviews/index.ts",
     "./lists": "./src/lists/index.ts",
+    "./community": "./src/community/index.ts",
     "./runner": "./src/runner/index.ts"
   },
   "bin": {
