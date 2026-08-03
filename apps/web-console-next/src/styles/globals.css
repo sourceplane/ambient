@@ -113,3 +113,122 @@
     padding-right: env(safe-area-inset-right);
   }
 }
+
+/* ──────────────────────────────────────────────────────────────────────
+   Site theme — the public catalog surface.
+
+   The console's Linear/Vercel carbon is right for /orgs and wrong for a
+   film site. Scoping a second palette to `.site` gives the catalog its own
+   voice without forking the component library: same Tailwind config, same
+   Radix primitives, same tokens file.
+
+   Direction: cinematic, poster-forward, dark-first. Chrome is near-black
+   (never pure black, so posters keep their shadows) and recedes; one warm
+   amber accent carries every interaction.
+   ────────────────────────────────────────────────────────────────────── */
+@layer base {
+  .site {
+    --site-bg: 240 9% 4%;
+    --site-surface: 240 8% 8%;
+    --site-surface-2: 240 7% 12%;
+    --site-hairline: 240 6% 18%;
+    --site-accent: 43 96% 56%;
+    --site-accent-fg: 40 40% 8%;
+    --site-rating: 45 100% 60%;
+    --site-meta: 240 5% 65%;
+    --site-fg: 0 0% 98%;
+    --site-radius-poster: 0.5rem;
+    --site-shadow-poster: 0 10px 30px -12px hsl(30 60% 3% / 0.9);
+
+    background-color: hsl(var(--site-bg));
+    color: hsl(var(--site-fg));
+  }
+
+  /* Light mode is real, not an afterthought: warm paper, same accent
+     darkened until it clears AA on white. */
+  html:not(.dark) .site {
+    --site-bg: 40 30% 98%;
+    --site-surface: 0 0% 100%;
+    --site-surface-2: 40 20% 95%;
+    --site-hairline: 40 12% 87%;
+    --site-accent: 36 92% 42%;
+    --site-accent-fg: 0 0% 100%;
+    --site-rating: 38 92% 45%;
+    --site-meta: 240 5% 38%;
+    --site-fg: 240 12% 10%;
+    --site-shadow-poster: 0 10px 28px -14px hsl(40 30% 20% / 0.35);
+  }
+}
+
+@layer utilities {
+  .site-surface {
+    background-color: hsl(var(--site-surface));
+  }
+  .site-surface-2 {
+    background-color: hsl(var(--site-surface-2));
+  }
+  .site-hairline {
+    border-color: hsl(var(--site-hairline));
+  }
+  .site-meta {
+    color: hsl(var(--site-meta));
+  }
+  .site-accent {
+    color: hsl(var(--site-accent));
+  }
+  .site-accent-bg {
+    background-color: hsl(var(--site-accent));
+    color: hsl(var(--site-accent-fg));
+  }
+  .site-rating {
+    color: hsl(var(--site-rating));
+  }
+
+  /* Fluid display scale — no breakpoint cliffs between a phone and a
+     desktop hero. */
+  .site-display {
+    font-size: clamp(1.75rem, 1.1rem + 3vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+  .site-h2 {
+    font-size: clamp(1.125rem, 0.95rem + 0.8vw, 1.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+  /* Ratings, years and runtimes line up in columns only with tabular
+     figures. */
+  .site-num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Horizontal rails: snap points plus a hidden scrollbar, so a rail reads
+     as a rail rather than as a scrolling div. */
+  .site-rail {
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .site-rail::-webkit-scrollbar {
+    display: none;
+  }
+  .site-rail > * {
+    scroll-snap-align: start;
+  }
+
+  .site-scrim {
+    background-image: linear-gradient(
+      to top,
+      hsl(var(--site-bg)) 8%,
+      hsl(var(--site-bg) / 0.75) 42%,
+      hsl(var(--site-bg) / 0.15) 100%
+    );
+  }
+
+  .site-focus:focus-visible {
+    outline: 2px solid hsl(var(--site-accent));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}

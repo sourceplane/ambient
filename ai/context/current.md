@@ -37,7 +37,7 @@ served through a modern cinematic web experience.
 | M5 | reviews-worker | **done** — user reviews, helpfulness, spoiler veil, moderation, critic reviews + metascore |
 | M6 | lists-worker | **done** — watchlist as a list, custom lists, items, likes, visibility |
 | M7 | community-worker (awards, facts, contributions) | **done** — awards, facts, parents guide, FAQ, news, contribution queue |
-| M8 | Web design system + shell + home | not started |
+| M8 | Web design system + shell + home | **done** — `.site` theme scope, site shell, mega-search, home rails; console moved to `/studio` |
 | M9 | Web title + name pages | not started |
 | M10 | Web discovery + user surfaces, SDK/CLI/seed/docs | not started |
 
