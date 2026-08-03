@@ -31,7 +31,7 @@ served through a modern cinematic web experience.
 | # | Milestone | State |
 |---|---|---|
 | M1 | Catalog data foundation + contracts | **done** — migrations `200`–`230`, `@saas/db/catalog`, `@saas/contracts/catalog` |
-| M2 | catalog-worker + edge routes | not started |
+| M2 | catalog-worker + edge routes | **done** — read + curation API, public cacheable edge route class |
 | M3 | search-worker | not started |
 | M4 | ratings-worker + charts | not started |
 | M5 | reviews-worker | not started |

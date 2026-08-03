@@ -57,6 +57,13 @@ const ORG_ROLE_PERMISSIONS: Record<OrganizationRole, readonly string[]> = {
     "organization.integration.manage",
     "organization.integration.token.issue",
     "project.repo_link.write",
+    "catalog.title.write",
+    "catalog.title.archive",
+    "catalog.person.write",
+    "catalog.person.archive",
+    "catalog.credit.write",
+    "catalog.media.write",
+    "catalog.episode.write",
   ],
   admin: [
     "organization.read",
@@ -98,6 +105,13 @@ const ORG_ROLE_PERMISSIONS: Record<OrganizationRole, readonly string[]> = {
     "organization.integration.manage",
     "organization.integration.token.issue",
     "project.repo_link.write",
+    "catalog.title.write",
+    "catalog.title.archive",
+    "catalog.person.write",
+    "catalog.person.archive",
+    "catalog.credit.write",
+    "catalog.media.write",
+    "catalog.episode.write",
   ],
   builder: [
     "organization.read",
@@ -114,6 +128,11 @@ const ORG_ROLE_PERMISSIONS: Record<OrganizationRole, readonly string[]> = {
     "project.webhook.read",
     "organization.metering.read",
     "organization.integration.read",
+    "catalog.title.write",
+    "catalog.person.write",
+    "catalog.credit.write",
+    "catalog.media.write",
+    "catalog.episode.write",
   ],
   viewer: [
     "organization.read",
@@ -247,6 +266,13 @@ const ALL_KNOWN_ACTIONS: ReadonlySet<string> = new Set([
   "organization.integration.manage",
   "organization.integration.token.issue",
   "project.repo_link.write",
+  "catalog.title.write",
+  "catalog.title.archive",
+  "catalog.person.write",
+  "catalog.person.archive",
+  "catalog.credit.write",
+  "catalog.media.write",
+  "catalog.episode.write",
 ]);
 
 function isOrgRole(role: string): role is OrganizationRole {

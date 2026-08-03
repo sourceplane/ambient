@@ -685,8 +685,30 @@ describe("listEffectivePermissions", () => {
     expect(result.policyVersion).toBe(1);
     expect(result.derivedScope.orgId).toBe("org_1");
 
-    const allowed = result.permissions.filter((p) => p.allow);
-    expect(allowed.length).toBe(31);
+    // Asserted by shape, not by count: an owner is allowed every known action
+    // EXCEPT the project-scoped ones, which need a projectId this request does
+    // not carry. A raw total would have to be re-tuned every time an action is
+    // added, which teaches nothing about the policy.
+    const denied = result.permissions.filter((p) => !p.allow).map((p) => p.action).sort();
+    expect(denied).toEqual(
+      [
+        "environment.create",
+        "environment.delete",
+        "environment.read",
+        "environment.update",
+        "project.config.read",
+        "project.config.write",
+        "project.delete",
+        "project.read",
+        "project.repo_link.write",
+        "project.update",
+      ].sort(),
+    );
+
+    const allowed = result.permissions.filter((p) => p.allow).map((p) => p.action);
+    expect(allowed).toContain("organization.read");
+    expect(allowed).toContain("catalog.title.write");
+    expect(allowed.length).toBe(result.permissions.length - denied.length);
   });
 
   it("returns limited permissions for viewer", () => {

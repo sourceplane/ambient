@@ -97,6 +97,7 @@ export interface TitlesRepositoryPart {
   listAkas(titleId: Uuid): Promise<CatalogResult<TitleAka[]>>;
   replaceAkas(titleId: Uuid, akas: Omit<TitleAka, "id" | "titleId">[]): Promise<CatalogResult<TitleAka[]>>;
   listGenres(titleId: Uuid): Promise<CatalogResult<TitleGenre[]>>;
+  getGenresByTitleIds(titleIds: string[]): Promise<CatalogResult<Map<string, TitleGenre[]>>>;
   setGenres(titleId: Uuid, genreSlugs: string[]): Promise<CatalogResult<TitleGenre[]>>;
   listAllGenres(): Promise<CatalogResult<Genre[]>>;
   listReleaseDates(titleId: Uuid): Promise<CatalogResult<TitleReleaseDate[]>>;
@@ -333,6 +334,30 @@ export function createTitlesRepository(executor: SqlExecutor): TitlesRepositoryP
           [titleId],
         );
         return { ok: true, value: result.rows.map(mapTitleGenre) };
+      } catch {
+        return internalError("Failed to list genres");
+      }
+    },
+
+    async getGenresByTitleIds(titleIds) {
+      if (titleIds.length === 0) return { ok: true, value: new Map() };
+      try {
+        const result = await executor.execute(
+          `SELECT tg.title_id, g.id, g.slug, g.name, tg.ordering
+             FROM catalog.title_genres tg
+             JOIN catalog.genres g ON g.id = tg.genre_id
+            WHERE tg.title_id = ANY($1::uuid[])
+            ORDER BY tg.title_id, tg.ordering, g.name`,
+          [titleIds],
+        );
+        const map = new Map<string, TitleGenre[]>();
+        for (const row of result.rows) {
+          const key = row.title_id as string;
+          const list = map.get(key) ?? [];
+          list.push(mapTitleGenre(row));
+          map.set(key, list);
+        }
+        return { ok: true, value: map };
       } catch {
         return internalError("Failed to list genres");
       }
