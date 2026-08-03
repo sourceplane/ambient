@@ -183,5 +183,41 @@ export const manifest: MigrationManifest = {
       description:
         "Connection pointer on the inbound-delivery inbox (nullable connection_id + partial index) — lets the per-connection delivery log scope precisely; attributed by the IG2 cron drain",
     },
+    {
+      id: "200_catalog_core",
+      context: "catalog",
+      path: "200_catalog_core/up.sql",
+      checksum:
+        "26188b3a43c7f43d2a4f7633369371fad82e3ee1a1b2e5ca2edcb0229d4d2a3a",
+      description:
+        "Catalog persistence foundation — titles and their satellite facts (akas, genres, release dates, certificates, countries, languages, locations, box office, technical specs, external ids, connections)",
+    },
+    {
+      id: "210_catalog_people",
+      context: "catalog",
+      path: "210_catalog_people/up.sql",
+      checksum:
+        "576358f75b77bca90c293daa432668014296130d7c7a42789968a8f9e667332b",
+      description:
+        "Catalog people, the unified cast/crew credit join with character rows, the derived known-for projection, and the series → season → episode ordering relation",
+    },
+    {
+      id: "220_catalog_companies",
+      context: "catalog",
+      path: "220_catalog_companies/up.sql",
+      checksum:
+        "e11906e454db8b40e52cdae5e5ae327651bfbc09675b6e2e42e1187c3a882640",
+      description:
+        "Catalog companies (studios, distributors, networks) with role-typed title links, and plot keywords with relevance voting",
+    },
+    {
+      id: "230_catalog_media",
+      context: "catalog",
+      path: "230_catalog_media/up.sql",
+      checksum:
+        "45513c90649ccd47c453afb8ffbbbb82673cca3398c2a76e9c3cd5f746896f71",
+      description:
+        "Catalog media — image metadata with dimensions and blurhash placeholders, one-primary-per-owner title/person links, and videos referenced by URL",
+    },
   ],
 };

@@ -23,6 +23,7 @@
     "./billing": "./src/billing.ts",
     "./notifications": "./src/notifications.ts",
     "./integrations": "./src/integrations.ts",
+    "./catalog": "./src/catalog.ts",
     "./idempotency": "./src/idempotency.ts"
   },
   "scripts": {
