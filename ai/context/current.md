@@ -33,7 +33,7 @@ served through a modern cinematic web experience.
 | M1 | Catalog data foundation + contracts | **done** — migrations `200`–`230`, `@saas/db/catalog`, `@saas/contracts/catalog` |
 | M2 | catalog-worker + edge routes | **done** — read + curation API, public cacheable edge route class |
 | M3 | search-worker | **done** — typeahead, full-text, advanced title/name search, publish seam |
-| M4 | ratings-worker + charts | not started |
+| M4 | ratings-worker + charts | **done** — votes, transactional aggregates, demographics, Bayesian charts, popularity |
 | M5 | reviews-worker | not started |
 | M6 | lists-worker | not started |
 | M7 | community-worker (awards, facts, contributions) | not started |

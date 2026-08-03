@@ -118,7 +118,7 @@ Internal (service binding only): `POST /v1/internal/search/reindex`.
 Public:
 
 ```
-GET /v1/titles/:titleId/rating              average, votes, histogram
+GET /v1/titles/:titleId/rating              average, votes, histogram (shares precomputed)
 GET /v1/titles/:titleId/rating/demographics
 GET /v1/charts/:chart                       top_movies|top_tv|bottom_movies|
                                             most_popular_movies|most_popular_tv|

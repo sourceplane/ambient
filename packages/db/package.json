@@ -22,6 +22,7 @@
     "./integrations": "./src/integrations/index.ts",
     "./catalog": "./src/catalog/index.ts",
     "./search": "./src/search/index.ts",
+    "./ratings": "./src/ratings/index.ts",
     "./runner": "./src/runner/index.ts"
   },
   "bin": {
