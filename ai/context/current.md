@@ -35,7 +35,7 @@ served through a modern cinematic web experience.
 | M3 | search-worker | **done** — typeahead, full-text, advanced title/name search, publish seam |
 | M4 | ratings-worker + charts | **done** — votes, transactional aggregates, demographics, Bayesian charts, popularity |
 | M5 | reviews-worker | **done** — user reviews, helpfulness, spoiler veil, moderation, critic reviews + metascore |
-| M6 | lists-worker | not started |
+| M6 | lists-worker | **done** — watchlist as a list, custom lists, items, likes, visibility |
 | M7 | community-worker (awards, facts, contributions) | not started |
 | M8 | Web design system + shell + home | not started |
 | M9 | Web title + name pages | not started |

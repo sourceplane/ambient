@@ -37,3 +37,4 @@ apps/catalog-worker/wrangler.jsonc
 apps/search-worker/wrangler.jsonc
 apps/ratings-worker/wrangler.jsonc
 apps/reviews-worker/wrangler.jsonc
+apps/lists-worker/wrangler.jsonc

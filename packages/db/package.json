@@ -24,6 +24,7 @@
     "./search": "./src/search/index.ts",
     "./ratings": "./src/ratings/index.ts",
     "./reviews": "./src/reviews/index.ts",
+    "./lists": "./src/lists/index.ts",
     "./runner": "./src/runner/index.ts"
   },
   "bin": {
