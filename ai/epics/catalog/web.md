@@ -130,6 +130,26 @@ ambient catalog chart <chart-key> [--limit=N]
 `catalog chart` demonstrates the batch seam: one chart read plus one
 hydrate, regardless of `--limit`.
 
+## Verified on stage
+
+Every `/v1` route answers through `api-edge`, and the site serves at the
+root of the stage console host with the console intact at `/studio` and
+`/orgs`. The catalog is empty until someone seeds it, which is what the
+home page says.
+
+Two bugs were found by exercising the deployment rather than the test
+suite, and both are worth remembering:
+
+- **`= ANY($n)` with a JS array throws at bind time.** `/v1/titles`
+  returned 503 while `/v1/names` — the same shape of query without an
+  array parameter — returned 200. See
+  [decisions.md](../../context/decisions.md).
+- **A component whose deploy lane fails is never retried** until its own
+  files change again, because `orun plan --changed` is per-push and
+  path-based. That is why stage's `api-edge` served M3 for hours after
+  M4–M7 had merged. The six catalog workers now declare their `db`
+  dependency; the platform workers still do not.
+
 ## Accessibility and budget
 
 - Skip link, visible 2 px accent focus ring on every interactive element.

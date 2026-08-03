@@ -8,6 +8,18 @@ ambient is live on stage and prod. The platform substrate (identity,
 membership, policy, projects, config, events, metering, billing,
 notifications, webhooks, integrations) is deployed and operating.
 
+The catalog product is deployed on stage: the site serves at the root of
+`ambient-web-console-next-stage`, the console keeps its routes and gains
+`/studio`, and every `/v1` catalog, search, ratings, reviews, lists and
+community route answers 200 through `api-edge`.
+
+**The catalog itself is empty.** Nothing has been curated yet, so the
+home page says so and the rails hide rather than pretending. Filling it
+is one command — see
+[epics/catalog/web.md](../epics/catalog/web.md#seeding-a-catalog); it
+needs a bearer token for an actor with the `catalog.*.write` permissions
+in the target org.
+
 - **What is deployed, where:** [deployment.md](deployment.md) - the
   generated manifest (verified URLs, identity, secrets inventory).
 - **How to operate it:** [operations.md](operations.md).
