@@ -10,11 +10,21 @@ inventory are recorded in
 docs flow — command in the operating contract); how it deploys and how to
 operate it: [ai/context/operations.md](ai/context/operations.md).
 <!-- 08-docs:end -->
-Reusable Cloudflare + Supabase multi-tenant SaaS starter, built as an
+Cloudflare + Supabase platform built as an
 [Orun](https://opencode.ai/docs) component-native desired-state repo. Identity,
 organizations, projects, RBAC, audit, metering, billing, webhooks, and
 notifications ship as separate bounded-context Cloudflare Workers behind a single
 public edge API, with a Next.js console on Workers + Static Assets.
+
+## What we are building
+
+The **[Catalog epic](ai/epics/catalog/README.md)** turns this substrate
+into a product: an IMDb-class title database — titles, people, credits,
+ratings, reviews, watchlists and lists, charts, awards, media, community
+facts and a contribution pipeline — behind a modern, poster-forward web
+experience. Feature parity matrix, schemas, public API and design system
+live under [`ai/epics/catalog/`](ai/epics/catalog/); milestone status is
+tracked in [ai/context/current.md](ai/context/current.md).
 
 ## Status
 
