@@ -9,6 +9,12 @@ import { newUuid, parseNamePublicId, parseTitlePublicId } from "../ids.js";
 import { withRepo } from "../repo.js";
 import { toPublicCreditBase, toPublicImage, toPublicName, toPublicTitle, toPublicVideo } from "../public.js";
 import {
+  personSearchDocument,
+  publishSearchDocuments,
+  titleSearchDocument,
+  unpublishSearchDocument,
+} from "../search-client.js";
+import {
   CREDIT_DEPARTMENTS,
   IMAGE_KINDS,
   PRODUCTION_STATUSES,
@@ -93,6 +99,13 @@ export async function handleCreateTitle(
 
     const applied = genres.length > 0 ? await repo.setGenres(id, genres.map(slugify)) : null;
 
+    const document = titleSearchDocument(
+      result.value,
+      applied?.ok ? applied.value.map((g) => g.slug) : [],
+      null,
+    );
+    await publishSearchDocuments(env.SEARCH_WORKER, document ? [document] : [], requestId);
+
     return successResponse(
       {
         title: toPublicTitle(
@@ -153,6 +166,20 @@ export async function handleUpdateTitle(
         : errorResponse("internal_error", "Service unavailable", 503, requestId);
     }
     const applied = genres ? await repo.setGenres(titleId, genres.map(slugify)) : await repo.listGenres(titleId);
+
+    const document = titleSearchDocument(
+      result.value,
+      applied.ok ? applied.value.map((g) => g.slug) : [],
+      null,
+    );
+    // A title edited into `draft` produces no document — unpublish instead, so
+    // search never keeps a row the public read surface would 404.
+    if (document) {
+      await publishSearchDocuments(env.SEARCH_WORKER, [document], requestId);
+    } else {
+      await unpublishSearchDocument(env.SEARCH_WORKER, "title", titleId, requestId);
+    }
+
     return successResponse(
       {
         title: toPublicTitle(
@@ -178,6 +205,7 @@ export async function handleArchiveTitle(
   return withRepo(env, requestId, "catalog.title.archive", async ({ repo, timings }) => {
     const result = await timings.measure("db", () => repo.archiveTitle(titleId, new Date()));
     if (!result.ok) return errorResponse("not_found", "Not found", 404, requestId);
+    await unpublishSearchDocument(env.SEARCH_WORKER, "title", titleId, requestId);
     return successResponse({ title: toPublicTitle(result.value) }, requestId);
   });
 }
@@ -235,11 +263,11 @@ export async function handleCreateName(
         ? errorResponse("conflict", "Person already exists", 409, requestId)
         : errorResponse("internal_error", "Service unavailable", 503, requestId);
     }
-    return successResponse(
-      { name: toPublicName(result.value, professions.map((p) => slugify(p))) },
-      requestId,
-      201,
-    );
+    const slugs = professions.map((p) => slugify(p));
+    const document = personSearchDocument(result.value, slugs, null);
+    await publishSearchDocuments(env.SEARCH_WORKER, document ? [document] : [], requestId);
+
+    return successResponse({ name: toPublicName(result.value, slugs) }, requestId, 201);
   });
 }
 
@@ -283,10 +311,16 @@ export async function handleUpdateName(
         : errorResponse("internal_error", "Service unavailable", 503, requestId);
     }
     const professions = await repo.listProfessions(personId);
-    return successResponse(
-      { name: toPublicName(result.value, professions.ok ? professions.value : []) },
-      requestId,
-    );
+    const slugs = professions.ok ? professions.value : [];
+
+    const document = personSearchDocument(result.value, slugs, null);
+    if (document) {
+      await publishSearchDocuments(env.SEARCH_WORKER, [document], requestId);
+    } else {
+      await unpublishSearchDocument(env.SEARCH_WORKER, "person", personId, requestId);
+    }
+
+    return successResponse({ name: toPublicName(result.value, slugs) }, requestId);
   });
 }
 
@@ -303,6 +337,7 @@ export async function handleArchiveName(
   return withRepo(env, requestId, "catalog.name.archive", async ({ repo, timings }) => {
     const result = await timings.measure("db", () => repo.archivePerson(personId, new Date()));
     if (!result.ok) return errorResponse("not_found", "Not found", 404, requestId);
+    await unpublishSearchDocument(env.SEARCH_WORKER, "person", personId, requestId);
     return successResponse({ name: toPublicName(result.value) }, requestId);
   });
 }

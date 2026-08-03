@@ -219,5 +219,14 @@ export const manifest: MigrationManifest = {
       description:
         "Catalog media — image metadata with dimensions and blurhash placeholders, one-primary-per-owner title/person links, and videos referenced by URL",
     },
+    {
+      id: "240_search_index",
+      context: "search",
+      path: "240_search_index/up.sql",
+      checksum:
+        "70912a96c392a35e1d54eb5e0d978ee3d538c9a0b5d8532082547352df9bba74",
+      description:
+        "Search persistence foundation — denormalized documents with a weighted generated tsvector, trigram index for typeahead, and a JSONB facet column for advanced search; published by the owning context, never read across schemas",
+    },
   ],
 };

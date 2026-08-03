@@ -34,3 +34,4 @@ apps/admin-worker/wrangler.jsonc
 apps/integrations-worker/wrangler.jsonc
 apps/webhooks-worker/wrangler.jsonc
 apps/catalog-worker/wrangler.jsonc
+apps/search-worker/wrangler.jsonc
