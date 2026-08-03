@@ -28,6 +28,7 @@
     "./ratings": "./src/ratings.ts",
     "./reviews": "./src/reviews.ts",
     "./lists": "./src/lists.ts",
+    "./community": "./src/community.ts",
     "./idempotency": "./src/idempotency.ts"
   },
   "scripts": {

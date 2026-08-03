@@ -264,5 +264,14 @@ export const manifest: MigrationManifest = {
       description:
         "Lists persistence foundation — the watchlist modelled as a list (kind = watchlist, one per user via a partial unique index) so every list feature works on it unchanged, plus list items with an entity-lookup index for the watchlist toggle and per-user likes",
     },
+    {
+      id: "290_community_core",
+      context: "community",
+      path: "290_community_core/up.sql",
+      checksum:
+        "89ff771323a7c4506f591ab322fd470abc84afd5c97d39ebafc27ddb9bf3c28b",
+      description:
+        "Community persistence foundation — award bodies/editions/categories/nominations, contributed title facts with structured quote lines, parents-guide entries with per-category severity votes, FAQ, news with entity links, and the contribution queue with contributor reputation",
+    },
   ],
 };

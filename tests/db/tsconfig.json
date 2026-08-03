@@ -30,6 +30,7 @@
       "@saas/db/ratings": ["../../packages/db/src/ratings/index.ts"],
       "@saas/db/reviews": ["../../packages/db/src/reviews/index.ts"],
       "@saas/db/lists": ["../../packages/db/src/lists/index.ts"],
+      "@saas/db/community": ["../../packages/db/src/community/index.ts"],
       "@saas/db/ids": ["../../packages/db/src/ids/index.ts"]
     }
   },
