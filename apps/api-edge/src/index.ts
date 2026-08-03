@@ -20,6 +20,7 @@ import {
   handleIntegrationsIngressRoute,
 } from "./integrations-facade";
 import { isCatalogRoute, handleCatalogRoute } from "./catalog-facade";
+import { isSearchRoute, handleSearchRoute } from "./search-facade";
 import { isSoloMode, isSoloSuppressed } from "./solo-mode";
 
 // Durable Object class backing the PERF5 Stage B rate-limit counters. Must be
@@ -69,6 +70,8 @@ export default {
       response = await handleMeteringRoute(request, env, requestId, url.pathname);
     } else if (isBillingRoute(url.pathname)) {
       response = await handleBillingRoute(request, env, requestId, url.pathname);
+    } else if (isSearchRoute(url.pathname)) {
+      response = await handleSearchRoute(request, env, requestId, url.pathname);
     } else if (isCatalogRoute(url.pathname)) {
       response = await handleCatalogRoute(request, env, requestId, url.pathname);
     } else if (isProjectRoute(url.pathname)) {

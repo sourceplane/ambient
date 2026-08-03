@@ -24,6 +24,7 @@
     "./notifications": "./src/notifications.ts",
     "./integrations": "./src/integrations.ts",
     "./catalog": "./src/catalog.ts",
+    "./search": "./src/search.ts",
     "./idempotency": "./src/idempotency.ts"
   },
   "scripts": {

@@ -16,6 +16,7 @@ export const BOUNDED_CONTEXTS = [
   "support",
   "integrations",
   "catalog",
+  "search",
 ] as const;
 
 export type BoundedContext = (typeof BOUNDED_CONTEXTS)[number];

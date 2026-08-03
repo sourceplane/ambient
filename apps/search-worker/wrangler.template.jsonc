@@ -3,7 +3,7 @@
 // resolved from the wiring manifest at deploy time (wire-live) or from the
 // committed wiring.fixture.json for offline dry-runs (wire-fixture).
 {
-  "name": "ambient-catalog-worker",
+  "name": "ambient-search-worker",
   "compatibility_date": "2025-05-01",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/index.ts",
@@ -27,20 +27,6 @@
           "binding": "PLATFORM_DB",
           "id": "@@wiring(cloudflare-hyperdrive/stage:hyperdrive_id)@@"
         }
-      ],
-      "services": [
-        {
-          "binding": "MEMBERSHIP_WORKER",
-          "service": "ambient-membership-worker-stage"
-        },
-        {
-          "binding": "POLICY_WORKER",
-          "service": "ambient-policy-worker-stage"
-        },
-        {
-          "binding": "SEARCH_WORKER",
-          "service": "ambient-search-worker-stage"
-        }
       ]
     },
     "prod": {
@@ -52,20 +38,6 @@
         {
           "binding": "PLATFORM_DB",
           "id": "@@wiring(cloudflare-hyperdrive/prod:hyperdrive_id)@@"
-        }
-      ],
-      "services": [
-        {
-          "binding": "MEMBERSHIP_WORKER",
-          "service": "ambient-membership-worker-prod"
-        },
-        {
-          "binding": "POLICY_WORKER",
-          "service": "ambient-policy-worker-prod"
-        },
-        {
-          "binding": "SEARCH_WORKER",
-          "service": "ambient-search-worker-prod"
         }
       ]
     }

@@ -101,6 +101,10 @@
         {
           "binding": "CATALOG_WORKER",
           "service": "ambient-catalog-worker-stage"
+        },
+        {
+          "binding": "SEARCH_WORKER",
+          "service": "ambient-search-worker-stage"
         }
       ],
       "durable_objects": {
@@ -174,6 +178,10 @@
         {
           "binding": "CATALOG_WORKER",
           "service": "ambient-catalog-worker-prod"
+        },
+        {
+          "binding": "SEARCH_WORKER",
+          "service": "ambient-search-worker-prod"
         }
       ],
       "durable_objects": {
