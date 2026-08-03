@@ -38,7 +38,7 @@ served through a modern cinematic web experience.
 | M6 | lists-worker | **done** — watchlist as a list, custom lists, items, likes, visibility |
 | M7 | community-worker (awards, facts, contributions) | **done** — awards, facts, parents guide, FAQ, news, contribution queue |
 | M8 | Web design system + shell + home | **done** — `.site` theme scope, site shell, mega-search, home rails; console moved to `/studio` |
-| M9 | Web title + name pages | not started |
+| M9 | Web title + name pages | **done** — title overview + 15 sub-routes, name page, spoiler veil, lightbox, rating panel |
 | M10 | Web discovery + user surfaces, SDK/CLI/seed/docs | not started |
 
 Keep this table current — it is the epic's progress ledger.
