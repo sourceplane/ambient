@@ -1,4 +1,8 @@
 import type {
+  CreateCreditRequest,
+  CreateImageRequest,
+  CreateNameRequest,
+  CreateTitleRequest,
   GetBoxOfficeResponse,
   GetNameResponse,
   GetTitleResponse,
@@ -19,6 +23,8 @@ import type {
   ListTitleCreditsResponse,
   ListTitlesResponse,
   ListVideosResponse,
+  PublicImage,
+  PublicTitleCredit,
 } from "@saas/contracts/catalog";
 
 import type { RequestOptions, Transport } from "./transport.js";
@@ -245,4 +251,147 @@ export class CatalogClient {
       opts,
     );
   }
+  // ── Curation ─────────────────────────────────────────────────────────
+  //
+  // Editorial writes. The catalog is one shared public database, but *who may
+  // edit it* still has to come from somewhere, and the platform has exactly one
+  // answer: org membership evaluated by the policy worker. So every write is
+  // scoped to the editorial organization the actor is acting on behalf of, and
+  // a denial is a 404 like the rest of the fleet — an unauthorized caller
+  // learns nothing about what exists.
+
+  /** POST /v1/organizations/:orgId/catalog/titles */
+  createTitle(
+    orgId: string,
+    body: CreateTitleRequest,
+    opts: RequestOptions = {},
+  ): Promise<GetTitleResponse> {
+    return this.transport.request<GetTitleResponse>(
+      { method: "POST", path: `${curationBase(orgId)}/titles`, body },
+      opts,
+    );
+  }
+
+  /** PATCH /v1/organizations/:orgId/catalog/titles/:titleId */
+  updateTitle(
+    orgId: string,
+    titleId: string,
+    body: Partial<CreateTitleRequest>,
+    opts: RequestOptions = {},
+  ): Promise<GetTitleResponse> {
+    return this.transport.request<GetTitleResponse>(
+      {
+        method: "PATCH",
+        path: `${curationBase(orgId)}/titles/${encodeURIComponent(titleId)}`,
+        body,
+      },
+      opts,
+    );
+  }
+
+  /**
+   * DELETE /v1/organizations/:orgId/catalog/titles/:titleId
+   *
+   * Archive, not erase: the record stops being publicly readable and stops
+   * being indexed, but credits and ratings that reference it stay intact.
+   */
+  archiveTitle(orgId: string, titleId: string, opts: RequestOptions = {}): Promise<void> {
+    return this.transport.request<void>(
+      {
+        method: "DELETE",
+        path: `${curationBase(orgId)}/titles/${encodeURIComponent(titleId)}`,
+      },
+      opts,
+    );
+  }
+
+  /** POST /v1/organizations/:orgId/catalog/titles/:titleId/credits */
+  createCredit(
+    orgId: string,
+    titleId: string,
+    body: CreateCreditRequest,
+    opts: RequestOptions = {},
+  ): Promise<{ credit: PublicTitleCredit }> {
+    return this.transport.request<{ credit: PublicTitleCredit }>(
+      {
+        method: "POST",
+        path: `${curationBase(orgId)}/titles/${encodeURIComponent(titleId)}/credits`,
+        body,
+      },
+      opts,
+    );
+  }
+
+  /** DELETE /v1/organizations/:orgId/catalog/credits/:creditId */
+  deleteCredit(orgId: string, creditId: string, opts: RequestOptions = {}): Promise<void> {
+    return this.transport.request<void>(
+      {
+        method: "DELETE",
+        path: `${curationBase(orgId)}/credits/${encodeURIComponent(creditId)}`,
+      },
+      opts,
+    );
+  }
+
+  /** POST /v1/organizations/:orgId/catalog/titles/:titleId/images */
+  createTitleImage(
+    orgId: string,
+    titleId: string,
+    body: CreateImageRequest,
+    opts: RequestOptions = {},
+  ): Promise<{ image: PublicImage }> {
+    return this.transport.request<{ image: PublicImage }>(
+      {
+        method: "POST",
+        path: `${curationBase(orgId)}/titles/${encodeURIComponent(titleId)}/images`,
+        body,
+      },
+      opts,
+    );
+  }
+
+  /** POST /v1/organizations/:orgId/catalog/names */
+  createName(
+    orgId: string,
+    body: CreateNameRequest,
+    opts: RequestOptions = {},
+  ): Promise<GetNameResponse> {
+    return this.transport.request<GetNameResponse>(
+      { method: "POST", path: `${curationBase(orgId)}/names`, body },
+      opts,
+    );
+  }
+
+  /** PATCH /v1/organizations/:orgId/catalog/names/:nameId */
+  updateName(
+    orgId: string,
+    nameId: string,
+    body: Partial<CreateNameRequest>,
+    opts: RequestOptions = {},
+  ): Promise<GetNameResponse> {
+    return this.transport.request<GetNameResponse>(
+      {
+        method: "PATCH",
+        path: `${curationBase(orgId)}/names/${encodeURIComponent(nameId)}`,
+        body,
+      },
+      opts,
+    );
+  }
+
+  /** DELETE /v1/organizations/:orgId/catalog/names/:nameId — archive. */
+  archiveName(orgId: string, nameId: string, opts: RequestOptions = {}): Promise<void> {
+    return this.transport.request<void>(
+      {
+        method: "DELETE",
+        path: `${curationBase(orgId)}/names/${encodeURIComponent(nameId)}`,
+      },
+      opts,
+    );
+  }
+}
+
+/** Every curation route hangs off the same org-scoped base. */
+function curationBase(orgId: string): string {
+  return `/v1/organizations/${encodeURIComponent(orgId)}/catalog`;
 }

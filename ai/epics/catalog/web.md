@@ -25,14 +25,35 @@ config, the Radix primitives and the tokens file; they share no chrome.
 | `/news` | News index |
 | `/awards` | Points at where awards actually live (see below) |
 
-### Console — entirely under `/studio`
+### Studio — the catalog's operator surface, under `/studio`
 
 | Route | What it is |
 |---|---|
-| `/studio` | Entry: resolves to the operator's last-used org, or onboarding, or sign-in |
-| `/studio/orgs/…` | Everything org-scoped |
+| `/studio` | Overview: moderation queue depths, recent titles and people, quick actions |
+| `/studio/catalog/titles` | Titles list + create |
+| `/studio/catalog/titles/:titleId` | Edit the record, manage credits and images, archive |
+| `/studio/catalog/people` | People list + create |
+| `/studio/catalog/people/:nameId` | Edit the record, archive |
+| `/studio/moderation` | Contribution and review queues, oldest first |
+
+### Platform console — also under `/studio`
+
+| Route | What it is |
+|---|---|
+| `/studio/orgs/…` | Everything org-scoped: projects, environments, members, billing, webhooks, config, audit |
 | `/studio/account`, `/studio/account/security` | Operator account |
 | `/studio/onboarding`, `/studio/demo` | |
+
+The studio and the platform console are two shells under one prefix, linked to
+each other, neither wrapping the other. The platform console is org-slug-scoped
+in the URL and its chrome is about projects and billing; catalog curation is
+**editorial** — one shared database, org membership used only to answer "may
+this person edit" — so forcing it through org-scoped chrome would put a tenant
+boundary in front of something that does not have one.
+
+The studio resolves the editorial org itself (last-used, else the account's
+billing parent, matching the console's own landing logic) and says which one in
+the header, because it picked rather than asked.
 
 `/login` and `/auth/callback` stay at the top level: they are the entry
 point for **both** surfaces, and a signed-out visitor arriving at a film
@@ -93,10 +114,16 @@ lives in `src/lib/site-*.ts` and is unit-tested:
 `site-format`, `site-routes`, `site-home`, `site-credits`, `site-title`,
 `site-search`.
 
-## Seeding a catalog
+## Filling the catalog
 
-A fresh deployment has a working site and an empty catalog. The site
-says so — but to see it with content:
+Two ways in, and they hit the same API.
+
+**The studio** — `/studio/catalog/titles` then *New title*. No token to mint and
+no script to run: sign in as someone with the `catalog.*.write` actions and
+type. This is the path for one title; the seed is the path for twelve.
+
+**The seed script** — a fresh deployment has a working site and an empty
+catalog. The site says so — but to see it with content:
 
 ```bash
 AMBIENT_TOKEN=<bearer for a catalog curator> \
@@ -133,6 +160,13 @@ you control.
 `client.catalog`, `.search`, `.ratings`, `.reviews`, `.lists`,
 `.community`. `catalog.batchTitles()` performs no request for an empty
 input, which is what makes it safe to call unconditionally.
+
+`client.catalog` also carries the **curation** writes the studio runs on —
+`createTitle`, `updateTitle`, `archiveTitle`, `createCredit`, `deleteCredit`,
+`createTitleImage`, `createName`, `updateName`, `archiveName` — each taking the
+editorial `orgId` first. `client.reviews.listModerationQueue()` / `.moderate()`
+and the same pair on `client.community` cover the queues. The studio uses no
+private back-channel; it is an SDK consumer like any other.
 
 `@saas/cli` gained five read commands. They are the only commands in the
 CLI that work signed out, because the routes are public:

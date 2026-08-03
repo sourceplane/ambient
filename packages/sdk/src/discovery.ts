@@ -18,6 +18,8 @@ import type {
 } from "@saas/contracts/ratings";
 import type {
   CreateReviewRequest,
+  ListModerationQueueResponse,
+  ModerateReviewRequest,
   GetMetascoreResponse,
   GetReviewResponse,
   ListCriticReviewsResponse,
@@ -34,6 +36,7 @@ import type {
 } from "@saas/contracts/lists";
 import type {
   CreateFactRequest,
+  ModerateContributionRequest,
   GetParentsGuideResponse,
   ListAwardsResponse,
   ListContributionsResponse,
@@ -240,6 +243,38 @@ export class ReviewsClient {
       opts,
     );
   }
+
+  /**
+   * GET /v1/moderation/reviews — moderator only.
+   *
+   * Oldest-first: a newest-first queue starves its own tail, and the whole
+   * point of a queue is that everything in it eventually gets looked at.
+   */
+  listModerationQueue(
+    query: { limit?: number } = {},
+    opts: RequestOptions = {},
+  ): Promise<ListModerationQueueResponse> {
+    return this.transport.request<ListModerationQueueResponse>(
+      { method: "GET", path: "/v1/moderation/reviews", query },
+      opts,
+    );
+  }
+
+  /** POST /v1/moderation/reviews/:reviewId/decision — moderator only. */
+  moderate(
+    reviewId: string,
+    body: ModerateReviewRequest,
+    opts: RequestOptions = {},
+  ): Promise<GetReviewResponse> {
+    return this.transport.request<GetReviewResponse>(
+      {
+        method: "POST",
+        path: `/v1/moderation/reviews/${encodeURIComponent(reviewId)}/decision`,
+        body,
+      },
+      opts,
+    );
+  }
 }
 
 /** Watchlist and user-curated lists. */
@@ -434,6 +469,38 @@ export class CommunityClient {
   listMyContributions(opts: RequestOptions = {}): Promise<ListContributionsResponse> {
     return this.transport.request<ListContributionsResponse>(
       { method: "GET", path: "/v1/me/contributions" },
+      opts,
+    );
+  }
+
+  /** GET /v1/moderation/contributions — moderator only, oldest-first. */
+  listModerationQueue(
+    query: { limit?: number } = {},
+    opts: RequestOptions = {},
+  ): Promise<ListContributionsResponse> {
+    return this.transport.request<ListContributionsResponse>(
+      { method: "GET", path: "/v1/moderation/contributions", query },
+      opts,
+    );
+  }
+
+  /**
+   * POST /v1/moderation/contributions/:id/decision — moderator only.
+   *
+   * The decision is the only thing that publishes a contribution; submitting
+   * one never does.
+   */
+  moderate(
+    contributionId: string,
+    body: ModerateContributionRequest,
+    opts: RequestOptions = {},
+  ): Promise<{ contribution: { id: string; state: string } }> {
+    return this.transport.request<{ contribution: { id: string; state: string } }>(
+      {
+        method: "POST",
+        path: `/v1/moderation/contributions/${encodeURIComponent(contributionId)}/decision`,
+        body,
+      },
       opts,
     );
   }
