@@ -15,6 +15,11 @@ spec:
   domain: catalog
   path: apps/catalog-worker
   dependsOn:
+    # These workers bundle `@saas/db`; a change there ships inside them. The
+    # edge is declared so the dependency is visible in the graph and the db
+    # lanes gate the deploy — an untyped repository change reaching a worker
+    # unverified is how the `= ANY($n)` bind failure got to stage.
+    - component: db
     - component: membership-worker
     - component: policy-worker
     - component: search-worker
