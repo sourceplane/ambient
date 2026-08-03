@@ -18,6 +18,8 @@ export const BOUNDED_CONTEXTS = [
   "catalog",
   "search",
   "ratings",
+  "reviews",
+  "lists",
 ] as const;
 
 export type BoundedContext = (typeof BOUNDED_CONTEXTS)[number];
