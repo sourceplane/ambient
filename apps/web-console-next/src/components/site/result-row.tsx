@@ -26,12 +26,17 @@ export function ResultRow({ hit, className }: { hit: PublicSearchHit; className?
   const kind = facetString(hit.facets, "kind");
   const genres = facetStrings(hit.facets, "genres");
 
-  const meta = metaLine([
-    year ? String(year) : null,
-    kind && kind !== "movie" ? kind.replace(/_/g, " ") : null,
-    formatRuntime(runtime),
-    genres.slice(0, 3).join(", "),
-  ]);
+  // The index writes `secondary` as "2016 · Movie" for a title — which is what
+  // the facet line already says — and as the profession list for a person,
+  // which nothing else says. So prefer the richer facet line and fall back to
+  // `secondary`, rather than rendering both and repeating the year.
+  const meta =
+    metaLine([
+      year ? String(year) : null,
+      kind && kind !== "movie" ? kind.replace(/_/g, " ") : null,
+      formatRuntime(runtime),
+      genres.slice(0, 3).join(", "),
+    ]) || hit.secondary;
 
   return (
     <div className={cn("flex gap-4 py-4", className)}>
@@ -49,10 +54,7 @@ export function ResultRow({ hit, className }: { hit: PublicSearchHit; className?
         <Link href={searchHitHref(hit)} className="site-focus block">
           <span className="text-base font-semibold hover:underline">{hit.display}</span>
         </Link>
-        {meta ? <p className="site-meta site-num text-sm capitalize">{meta}</p> : null}
-        {hit.secondary ? (
-          <p className="site-meta line-clamp-2 text-sm">{hit.secondary}</p>
-        ) : null}
+        {meta ? <p className="site-meta site-num line-clamp-2 text-sm capitalize">{meta}</p> : null}
         {rating !== null ? (
           <RatingPill average={rating} voteCount={votes ?? 0} size="sm" className="mt-1.5" />
         ) : null}

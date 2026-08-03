@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import type { PublicTitleSummary } from "@saas/contracts/catalog";
-import { cn } from "@/lib/cn";
 import { catalogApi, ratingsApi } from "@/lib/catalog-api";
 import { chartBySlug, titleHref } from "@/lib/site-routes";
 import { isViewMode, type ViewMode } from "@/lib/site-search";
@@ -137,7 +136,7 @@ export default function ChartPage() {
                 </div>
                 <RatingPill average={entry.score} showVotes={false} size="sm" className="shrink-0" />
                 {mode === "detailed" ? (
-                  <WatchlistButton titleId={title.id} className={cn("hidden shrink-0 sm:inline-flex")} />
+                  <WatchlistButton titleId={title.id} compact className="hidden shrink-0 sm:inline-flex" />
                 ) : null}
               </li>
             ))}
