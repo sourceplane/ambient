@@ -10,6 +10,7 @@ import { useSession } from "@/lib/session";
 import { useApiQuery, qk } from "@/lib/query";
 import { wrap } from "@/lib/api";
 import { SOLO_MODE } from "@/lib/solo-mode";
+import { STUDIO_ROOT } from "@/lib/site-routes";
 
 /**
  * Guided create-organization flow for ADDITIONAL (child) organizations. The
@@ -26,10 +27,12 @@ export default function NewOrgPage() {
 
   const needsOnboarding = orgs.data?.length === 0;
   React.useEffect(() => {
-    // Solo: the user is the tenant and cannot create a second org — bounce home.
-    // (The API edge also 404s POST /v1/organizations; this is the UI guard.)
+    // Solo: the user is the tenant and cannot create a second org — bounce to
+    // the console entry, which resolves their org scope. (`/` is the public
+    // catalog now, which is not where an operator mid-flow wants to land.)
+    // The API edge also 404s POST /v1/organizations; this is the UI guard.
     if (SOLO_MODE) {
-      router.replace("/");
+      router.replace(STUDIO_ROOT);
       return;
     }
     if (needsOnboarding) router.replace("/onboarding");

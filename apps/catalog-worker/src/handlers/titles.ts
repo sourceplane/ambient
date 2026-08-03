@@ -3,6 +3,7 @@ import type { RecordStatus, TitleKind, TitleListFilters } from "@saas/db/catalog
 import { TITLE_KINDS } from "@saas/db/catalog";
 import type { Env } from "../env.js";
 import { errorResponse, successResponse, validationError } from "../http.js";
+import { parseTitlePublicId } from "../ids.js";
 import { encodeCursor, parsePageParams } from "../pagination.js";
 import { withRepo } from "../repo.js";
 import { hydrateTitleSummaries } from "./hydrate.js";
@@ -79,8 +80,67 @@ export function handleGetTitle(env: Env, requestId: string, titleId: Uuid): Prom
   });
 }
 
+/** Batch-by-id caps out well below the paged limit — this is a hydrate, not a browse. */
+const MAX_BATCH_IDS = 100;
+
+/**
+ * `?ids=tt_…,tt_…` — hydrate a set of titles the caller already has ids for.
+ *
+ * Charts, watchlists and "more like this" all arrive as an ordered list of
+ * title ids from a context that cannot read the catalog's schema. Without a
+ * batch read the client's only option is one request per poster, so this is
+ * the seam that keeps those surfaces to a single round trip.
+ *
+ * Order is the caller's, not the database's: a chart's whole meaning is its
+ * ranking, and re-sorting it here would destroy that.
+ */
+function handleBatchTitles(
+  env: Env,
+  requestId: string,
+  publicIds: string[],
+): Promise<Response> {
+  const decoded: Array<{ publicId: string; uuid: Uuid }> = [];
+  for (const publicId of publicIds.slice(0, MAX_BATCH_IDS)) {
+    const uuid = parseTitlePublicId(publicId);
+    // An unparseable id is not an error — a caller hydrating a stale list
+    // should get back the titles that still resolve, not a 422 for the batch.
+    if (uuid) decoded.push({ publicId, uuid });
+  }
+  if (decoded.length === 0) {
+    return Promise.resolve(successResponse({ titles: [] }, requestId));
+  }
+
+  return withRepo(env, requestId, "catalog.title.batch", async ({ repo, timings }) => {
+    const result = await timings.measure("db", () =>
+      repo.getTitlesByIds(decoded.map((d) => d.uuid)),
+    );
+    if (!result.ok) return errorResponse("internal_error", "Service unavailable", 503, requestId);
+
+    const published = result.value.filter((t) => t.status === "published");
+    const summaries = await timings.measure("hydrate", () =>
+      hydrateTitleSummaries(repo, published),
+    );
+    const byId = new Map(summaries.map((s) => [s.id, s]));
+
+    const titles = decoded
+      .map((d) => byId.get(d.publicId))
+      .filter((t): t is NonNullable<typeof t> => t !== undefined);
+
+    return successResponse({ titles }, requestId);
+  });
+}
+
 export function handleListTitles(request: Request, env: Env, requestId: string): Promise<Response> {
   const url = new URL(request.url);
+
+  // The *presence* of `ids` selects the batch path, not its contents. A client
+  // that built `?ids=` from an empty set means "hydrate nothing"; answering
+  // that with a full catalog browse would be both surprising and expensive.
+  if (url.searchParams.has("ids")) {
+    const ids = url.searchParams.getAll("ids").flatMap((v) => v.split(",")).filter(Boolean);
+    return handleBatchTitles(env, requestId, ids);
+  }
+
   const page = parsePageParams(url);
   if (!page.ok) {
     return Promise.resolve(validationError(requestId, { [page.field]: [page.reason] }));

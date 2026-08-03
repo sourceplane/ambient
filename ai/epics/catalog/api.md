@@ -23,6 +23,7 @@ existing conventions (`packages/contracts/src/errors.ts`,
 
 ```
 GET  /v1/titles                       list/browse (filters, cursor)
+GET  /v1/titles?ids=tt_…,tt_…         batch hydrate, caller's order, max 100
 GET  /v1/titles/:titleId              core record + primary image + aggregate
 GET  /v1/titles/:titleId/credits      cast + crew, ?category=cast|crew&department=&limit=
 GET  /v1/titles/:titleId/akas
@@ -40,6 +41,15 @@ GET  /v1/titles/:titleId/seasons
 GET  /v1/titles/:titleId/episodes     ?season=
 GET  /v1/titles/:titleId/similar      more-like-this (M4)
 ```
+
+**Why `?ids=` exists.** Charts, watchlists and "more like this" are produced by
+contexts that cannot read the catalog's schema, so they return title ids and
+nothing else. The client is where the two halves meet. Without a batch read,
+every one of those surfaces costs one request per poster. The batch answers in
+the caller's order — a chart's whole meaning is its ranking — and drops ids it
+cannot resolve rather than failing the request, so a stale list degrades
+instead of breaking. Unpublished rows are omitted, exactly as they are on the
+single-title read.
 
 ### People — public
 

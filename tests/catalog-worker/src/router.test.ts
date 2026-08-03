@@ -232,3 +232,36 @@ describe("curation guards", () => {
     expect(response.status).toBe(405);
   });
 });
+
+describe("batch title reads", () => {
+  it("answers an empty batch without touching the database", async () => {
+    // `bareEnv` has no Hyperdrive binding, so anything that reaches the repo
+    // returns 503. A 200 here proves the short-circuit.
+    const response = await route(get("/v1/titles?ids="), bareEnv());
+    expect(response.status).toBe(200);
+    expect(await json(response)).toMatchObject({ data: { titles: [] } });
+  });
+
+  it("answers a batch of entirely unparseable ids without touching the database", async () => {
+    const response = await route(get("/v1/titles?ids=nonsense,nm_abc"), bareEnv());
+    expect(response.status).toBe(200);
+    expect(await json(response)).toMatchObject({ data: { titles: [] } });
+  });
+
+  it("reaches the repository once at least one id parses", async () => {
+    const response = await route(get(`/v1/titles?ids=${TITLE_ID},garbage`), bareEnv());
+    expect(response.status).toBe(503);
+  });
+
+  it("accepts ids as repeated parameters as well as a comma list", async () => {
+    const response = await route(get(`/v1/titles?ids=${TITLE_ID}&ids=${NAME_ID}`), bareEnv());
+    expect(response.status).toBe(503);
+  });
+
+  it("does not apply pagination validation to a batch", async () => {
+    // `limit=abc` is a 422 on the browse path; on a batch there is no page to
+    // validate, and the caller's ids are the whole request.
+    expect((await route(get("/v1/titles?limit=abc"), bareEnv())).status).toBe(422);
+    expect((await route(get(`/v1/titles?ids=${TITLE_ID}&limit=abc`), bareEnv())).status).toBe(503);
+  });
+});
