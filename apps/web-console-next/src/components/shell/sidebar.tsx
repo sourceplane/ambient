@@ -74,7 +74,7 @@ export function NavContent({
   // Within `/settings`, the sidebar swaps from the product nav to a dedicated
   // settings nav (a flat list under a centered "Settings" header), mirroring
   // how Vercel turns the whole left rail into a settings menu.
-  const inSettings = !!orgSlug && !!pathname && pathname.startsWith(`/orgs/${orgSlug}/settings`);
+  const inSettings = !!orgSlug && !!pathname && pathname.startsWith(`/studio/orgs/${orgSlug}/settings`);
 
   // Subtle directional swap: settings slides in from the right, back-to-app from
   // the left. The `key` remounts the panel so the animation replays on change.
@@ -170,7 +170,7 @@ function SettingsNavContent({
       {/* Back button on the left, "Settings" centered (Vercel pattern). */}
       <div className={cn("relative mb-2 flex items-center justify-center", mobile ? "h-11" : "h-8")}>
         <Link
-          href={`/orgs/${orgSlug}/projects`}
+          href={`/studio/orgs/${orgSlug}/projects`}
           {...(onNavigate ? { onClick: onNavigate } : {})}
           aria-label="Back to app"
           className={cn(

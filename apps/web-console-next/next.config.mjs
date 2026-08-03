@@ -20,6 +20,26 @@ const nextConfig = {
     };
     return config;
   },
+  // The console used to own `/orgs`, `/account`, `/onboarding` and `/demo` at
+  // the top level. The catalog is the product now and owns the root namespace,
+  // so the console lives entirely under `/studio`. These are permanent (308)
+  // because the old addresses are not coming back — and they are server-side so
+  // a deep bookmark like `/orgs/acme/settings/webhooks/we_123` lands on the
+  // same page rather than on a 404 or a generic home.
+  //
+  // `/login` and `/auth/callback` deliberately stay at the top level: they are
+  // the entry point for both surfaces, and a signed-out visitor arriving at a
+  // film page should not be sent through a URL that says "studio".
+  async redirects() {
+    return [
+      { source: "/orgs", destination: "/studio/orgs", permanent: true },
+      { source: "/orgs/:path*", destination: "/studio/orgs/:path*", permanent: true },
+      { source: "/account", destination: "/studio/account", permanent: true },
+      { source: "/account/:path*", destination: "/studio/account/:path*", permanent: true },
+      { source: "/onboarding", destination: "/studio/onboarding", permanent: true },
+      { source: "/demo", destination: "/studio/demo", permanent: true },
+    ];
+  },
   // `output: "standalone"` is required by the @opennextjs/cloudflare adapter,
   // which reads `.next/standalone/**` to bundle the server function before
   // emitting Pages-compatible assets into `.open-next/assets/**`.

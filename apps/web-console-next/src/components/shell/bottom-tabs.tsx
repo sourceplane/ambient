@@ -26,14 +26,14 @@ export function BottomTabs() {
 
   const tabs: Tab[] = orgSlug
     ? [
-        { href: "/orgs", label: "Orgs", icon: Building2 },
-        { href: `/orgs/${orgSlug}/projects`, label: "Projects", icon: FolderKanban },
-        { href: `/orgs/${orgSlug}/usage`, label: "Usage", icon: Gauge },
-        { href: `/orgs/${orgSlug}/settings`, label: "Settings", icon: Settings },
+        { href: "/studio/orgs", label: "Orgs", icon: Building2 },
+        { href: `/studio/orgs/${orgSlug}/projects`, label: "Projects", icon: FolderKanban },
+        { href: `/studio/orgs/${orgSlug}/usage`, label: "Usage", icon: Gauge },
+        { href: `/studio/orgs/${orgSlug}/settings`, label: "Settings", icon: Settings },
       ]
     : [
-        { href: "/orgs", label: "Organizations", icon: Building2 },
-        { href: "/account", label: "Account", icon: User2 },
+        { href: "/studio/orgs", label: "Organizations", icon: Building2 },
+        { href: "/studio/account", label: "Account", icon: User2 },
       ];
 
   return (

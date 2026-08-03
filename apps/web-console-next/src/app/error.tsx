@@ -41,7 +41,7 @@ export default function RootError({
           </button>
           <button
             type="button"
-            onClick={() => router.push("/orgs")}
+            onClick={() => router.push("/studio/orgs")}
             className="inline-flex h-9 items-center rounded-md bg-primary px-4 text-sm text-primary-foreground hover:bg-primary/90"
           >
             Back to organizations

@@ -45,7 +45,7 @@ const DYNAMIC_CHILD_HREF: Record<string, string> = {
  *
  * The first crumb is always the org (display name, linking to the org's
  * Projects page — its de-facto home). Subsequent crumbs follow the pathname
- * segments after `/orgs/:orgSlug/`, using friendly labels for known segments
+ * segments after `/studio/orgs/:orgSlug/`, using friendly labels for known segments
  * and the raw slug/id for dynamic ones. The final crumb is the current page
  * and carries no href.
  */
@@ -55,7 +55,7 @@ export function buildBreadcrumbs(args: {
   pathname: string | null;
 }): Crumb[] {
   const { orgSlug, orgName, pathname } = args;
-  const base = `/orgs/${orgSlug}`;
+  const base = `/studio/orgs/${orgSlug}`;
   const crumbs: Crumb[] = [{ label: orgName, href: `${base}/projects` }];
 
   if (!pathname || !pathname.startsWith(`${base}`)) {
@@ -85,7 +85,7 @@ export function buildBreadcrumbs(args: {
     else crumbs.push({ label, href: crumbHref });
   }
 
-  // `/orgs/:slug` itself: the org crumb is the page.
+  // `/studio/orgs/:slug` itself: the org crumb is the page.
   if (rest.length === 0) return [{ label: orgName }];
 
   return crumbs;

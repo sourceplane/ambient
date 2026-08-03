@@ -55,7 +55,7 @@ export default function GlobalError({
               Try again
             </button>
             <a
-              href="/orgs"
+              href="/studio/orgs"
               style={{
                 height: 36,
                 display: "inline-flex",

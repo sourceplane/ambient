@@ -78,7 +78,7 @@ export function ScopeSwitcher() {
             <>
               <DropdownMenuLabel>Organizations</DropdownMenuLabel>
               {orgs.map((o) => (
-                <DropdownMenuItem key={o.id} onSelect={() => router.push(`/orgs/${o.slug}/projects`)}>
+                <DropdownMenuItem key={o.id} onSelect={() => router.push(`/studio/orgs/${o.slug}/projects`)}>
                   <Building2 className="h-4 w-4 opacity-70" /> {o.name}
                   <span className="ml-auto text-[10px] text-muted-foreground">{o.slug}</span>
                 </DropdownMenuItem>
@@ -86,7 +86,7 @@ export function ScopeSwitcher() {
               <DropdownMenuSeparator />
             </>
           ) : null}
-          <DropdownMenuItem onSelect={() => router.push("/orgs")}>View all organizations…</DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => router.push("/studio/orgs")}>View all organizations…</DropdownMenuItem>
         </Crumb>
       </div>
 
@@ -106,7 +106,7 @@ export function ScopeSwitcher() {
                   <DropdownMenuItem
                     key={p.id}
                     onSelect={() =>
-                      router.push(`/orgs/${orgSlug}/projects/${p.slug}/environments`)
+                      router.push(`/studio/orgs/${orgSlug}/projects/${p.slug}/environments`)
                     }
                   >
                     <FolderKanban className="h-4 w-4 opacity-70" /> {p.name}
@@ -116,7 +116,7 @@ export function ScopeSwitcher() {
                 <DropdownMenuSeparator />
               </>
             ) : null}
-            <DropdownMenuItem onSelect={() => router.push(`/orgs/${orgSlug}/projects`)}>
+            <DropdownMenuItem onSelect={() => router.push(`/studio/orgs/${orgSlug}/projects`)}>
               View all projects…
             </DropdownMenuItem>
           </Crumb>
@@ -138,7 +138,7 @@ export function ScopeSwitcher() {
                   <DropdownMenuItem
                     key={e.id}
                     onSelect={() =>
-                      router.push(`/orgs/${orgSlug}/projects/${projectSlug}/environments/${e.slug}`)
+                      router.push(`/studio/orgs/${orgSlug}/projects/${projectSlug}/environments/${e.slug}`)
                     }
                   >
                     <Boxes className="h-4 w-4 opacity-70" /> {e.name}
@@ -149,7 +149,7 @@ export function ScopeSwitcher() {
               </>
             ) : null}
             <DropdownMenuItem
-              onSelect={() => router.push(`/orgs/${orgSlug}/projects/${projectSlug}/environments`)}
+              onSelect={() => router.push(`/studio/orgs/${orgSlug}/projects/${projectSlug}/environments`)}
             >
               View all environments…
             </DropdownMenuItem>

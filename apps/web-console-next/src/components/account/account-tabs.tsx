@@ -4,8 +4,8 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 
 const TABS = [
-  { key: "profile", label: "Profile", href: "/account" },
-  { key: "security", label: "Security activity", href: "/account/security" },
+  { key: "profile", label: "Profile", href: "/studio/account" },
+  { key: "security", label: "Security activity", href: "/studio/account/security" },
 ] as const;
 
 /** Sub-navigation shared by the account pages. */

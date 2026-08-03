@@ -12,6 +12,12 @@
 import type { SearchEntityType } from "@saas/contracts/search";
 import type { ChartKey } from "@saas/contracts/ratings";
 
+/**
+ * Routes that belong to the operator console rather than the public site.
+ * The site shell links out to these; it never wraps them.
+ */
+export const STUDIO_ROOT = "/studio";
+
 export function titleHref(titleId: string): string {
   return `/title/${titleId}`;
 }
@@ -246,7 +252,9 @@ export const SITE_TABS: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Search", href: "/find" },
   { label: "Watchlist", href: "/watchlist" },
-  { label: "Account", href: "/account" },
+  // The site has no account surface of its own yet, so this crosses into the
+  // console. Named for what the visitor gets, not for where it lands.
+  { label: "Account", href: `${STUDIO_ROOT}/account` },
 ];
 
 export const FOOTER_COLUMNS: NavMenu[] = [
@@ -269,28 +277,23 @@ export const FOOTER_COLUMNS: NavMenu[] = [
     ],
   },
   {
+    // Only destinations that exist. "Your ratings", "Your lists" and
+    // "Contribute" were listed here and none of them had a route — a footer
+    // full of 404s is worse than a short footer.
     label: "You",
     links: [
       { label: "Watchlist", href: "/watchlist" },
-      { label: "Your ratings", href: "/account/ratings" },
-      { label: "Your lists", href: "/account/lists" },
-      { label: "Contribute", href: "/contribute" },
+      { label: "Account", href: `${STUDIO_ROOT}/account` },
     ],
   },
   {
     label: "Platform",
     links: [
-      { label: "Studio", href: "/studio" },
+      { label: "Studio", href: STUDIO_ROOT },
       { label: "Sign in", href: "/login" },
     ],
   },
 ];
-
-/**
- * Routes that belong to the operator console rather than the public site.
- * The site shell links out to these; it never wraps them.
- */
-export const STUDIO_ROOT = "/studio";
 
 /**
  * `true` when a pathname is one of the site's own routes. Used by the header to

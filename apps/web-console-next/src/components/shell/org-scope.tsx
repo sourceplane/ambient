@@ -74,7 +74,7 @@ export function OrgScope({
         icon={AlertTriangle}
         title="Organization not found"
         description={`No org matches slug “${slug}”. It may have been archived or you no longer have access.`}
-        primaryAction={{ label: "Back to organizations", href: "/orgs" }}
+        primaryAction={{ label: "Back to organizations", href: "/studio/orgs" }}
       />
     );
   }

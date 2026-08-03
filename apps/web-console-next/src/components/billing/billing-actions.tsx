@@ -149,7 +149,7 @@ export function BillingActions({
         ) : (
           <div className="flex flex-wrap items-center gap-3">
             <Button asChild>
-              <Link href={`/orgs/${slug}/settings/billing/change-plan`}>Change plan</Link>
+              <Link href={`/studio/orgs/${slug}/settings/billing/change-plan`}>Change plan</Link>
             </Button>
             {manageable ? (
               <span className="flex items-center gap-2">

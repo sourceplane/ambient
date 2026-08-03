@@ -195,7 +195,7 @@ export function createButtonLabel(
  */
 export function postCreatePath(mode: CreateOrgMode, source: SourceChoice, orgSlug: string): string {
   if (mode === "child" && source.kind === "git" && source.provider === "github") {
-    return `/orgs/${orgSlug}/settings/integrations`;
+    return `/studio/orgs/${orgSlug}/settings/integrations`;
   }
-  return `/orgs/${orgSlug}/projects`;
+  return `/studio/orgs/${orgSlug}/projects`;
 }

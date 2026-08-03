@@ -36,7 +36,7 @@ import {
  * (checkout for paid parent plans, GitHub App install for the GitHub starting
  * point).
  *
- * Two surfaces render it: the in-shell `/orgs/new` page ("page" variant, child
+ * Two surfaces render it: the in-shell `/studio/orgs/new` page ("page" variant, child
  * orgs) and the mandatory first-run `/onboarding` page ("onboarding" variant).
  * Onboarding has no org to go back to, so the picker back-link and the
  * first-step Cancel are dropped there.
@@ -97,7 +97,7 @@ export function CreateOrgFlow({
 
   const back = () => {
     if (stepIndex === 0) {
-      router.push("/orgs");
+      router.push("/studio/orgs");
       return;
     }
     setStepIndex((i) => i - 1);
@@ -148,7 +148,7 @@ export function CreateOrgFlow({
       const c = await wrap(() =>
         client.billing.createCheckout(org.id, {
           planCode: plan.code,
-          returnPath: `/orgs/${org.slug}/settings/billing?checkout=complete`,
+          returnPath: `/studio/orgs/${org.slug}/settings/billing?checkout=complete`,
         }),
       );
       if (c.ok) {
@@ -173,7 +173,7 @@ export function CreateOrgFlow({
     <div className="mx-auto max-w-5xl">
       {variant === "page" && (
         <Link
-          href="/orgs"
+          href="/studio/orgs"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />

@@ -125,7 +125,7 @@ export function SiteHeader({ watchlistCount }: { watchlistCount?: number }) {
 
           {token ? (
             <Link
-              href="/account"
+              href={`${STUDIO_ROOT}/account`}
               aria-label="Your account"
               className="site-focus rounded p-2 hover:site-accent"
             >
