@@ -66,16 +66,26 @@ spec:
     installCommand: pnpm install --frozen-lockfile
     buildCommand: pnpm exec turbo run build --filter=@saas/web-console-next
 
-    # Smoke: follow redirects (root `redirect("/orgs")` is a 307) and confirm
-    # the SSR'd page contains the console marker. The api-edge worker is the
-    # same hostname pattern as before.
+    # Smoke: assert what this deployment actually serves. Three things, because
+    # this worker now hosts two products and a compatibility layer:
+    #
+    #   1. `/` is the catalog — matched on the product promise in the SSR'd
+    #      <title>, not on a CSS class or a nav label that a redesign moves.
+    #      This assertion used to look for 'ambient Console', which was correct
+    #      until the site took the root; a smoke that checks the wrong product
+    #      is worse than no smoke, because it passes for the wrong reason.
+    #   2. `/studio` still answers — the console must survive the move.
+    #   3. `/orgs` still resolves (via -L, through its 308) — the legacy
+    #      redirects are a promise to every operator bookmark, so they are
+    #      part of the health contract rather than a one-time migration.
+    #
     # Buffer curl into a variable before grepping so `grep -q` matching early
     # cannot SIGPIPE curl and produce a flaky exit-23 race (observed on prod
     # in main CI run 26628207777 even though the site was live).
     # `${WORKERS_DEV_SUBDOMAIN}` is exported by the composition's deploy/smoke
     # step from the `workersDevSubdomain` parameter above (BF3: no duplicated
     # subdomain literal here).
-    smokeCommand: "html=$(curl -sfL \"${DEPLOYED_URL}/\") && echo \"${html}\" | grep -q 'ambient Console' && health=$(curl -sf \"https://ambient-api-edge-${ORUN_ENVIRONMENT}.${WORKERS_DEV_SUBDOMAIN}.workers.dev/health\") && echo \"${health}\" | grep -q ok"
+    smokeCommand: "html=$(curl -sfL \"${DEPLOYED_URL}/\") && echo \"${html}\" | grep -q 'movies, TV and the people who make them' && curl -sfL -o /dev/null \"${DEPLOYED_URL}/studio\" && curl -sfL -o /dev/null \"${DEPLOYED_URL}/orgs\" && health=$(curl -sf \"https://ambient-api-edge-${ORUN_ENVIRONMENT}.${WORKERS_DEV_SUBDOMAIN}.workers.dev/health\") && echo \"${health}\" | grep -q ok"
   labels:
     team: platform
     layer: delivery
