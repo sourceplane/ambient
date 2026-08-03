@@ -25,6 +25,7 @@ served through a modern cinematic web experience.
 - Schemas: [data-model.md](../epics/catalog/data-model.md)
 - Public API: [api.md](../epics/catalog/api.md)
 - Design system + page specs: [design.md](../epics/catalog/design.md)
+- What shipped on the web + how to seed: [web.md](../epics/catalog/web.md)
 
 ### Milestone status
 
@@ -37,8 +38,8 @@ served through a modern cinematic web experience.
 | M5 | reviews-worker | **done** — user reviews, helpfulness, spoiler veil, moderation, critic reviews + metascore |
 | M6 | lists-worker | **done** — watchlist as a list, custom lists, items, likes, visibility |
 | M7 | community-worker (awards, facts, contributions) | **done** — awards, facts, parents guide, FAQ, news, contribution queue |
-| M8 | Web design system + shell + home | **done** — `.site` theme scope, site shell, mega-search, home rails; console moved to `/studio` |
+| M8 | Web design system + shell + home | **done** — `.site` theme scope, site shell, mega-search, home rails; console keeps its routes and gains `/studio` |
 | M9 | Web title + name pages | **done** — title overview + 15 sub-routes, name page, spoiler veil, lightbox, rating panel |
-| M10 | Web discovery + user surfaces, SDK/CLI/seed/docs | not started |
+| M10 | Web discovery + user surfaces, SDK/CLI/seed/docs | **done** — search/charts/watchlist/lists/profile, SDK catalog namespaces, `ambient catalog` CLI, seed tool |
 
 Keep this table current — it is the epic's progress ledger.
