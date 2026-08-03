@@ -135,8 +135,12 @@ describe("SearchRepository — suggest", () => {
     const { executor, queries } = createFakeExecutor();
     const repo = createSearchRepository(executor);
     await repo.suggest("arr", 8, ["title", "person"]);
-    expect(queries[0]!.text).toContain("entity_type = ANY(");
-    expect(queries[0]!.params).toContainEqual(["title", "person"]);
+    // Scalar placeholders, never `= ANY($n)` with a JS array — the driver runs
+    // with `fetch_types: false` and cannot bind one. See `in-list.test.ts`.
+    expect(queries[0]!.text).toContain("entity_type IN ($2, $3)");
+    expect(queries[0]!.params).toContain("title");
+    expect(queries[0]!.params).toContain("person");
+    expect(queries[0]!.params).not.toContainEqual(["title", "person"]);
   });
 
   it("maps a row into a hit, coercing numeric strings", async () => {

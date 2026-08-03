@@ -1,4 +1,5 @@
 import type { SqlExecutor } from "../hyperdrive/executor.js";
+import { inList } from "../hyperdrive/in-list.js";
 import type { Uuid } from "../ids/index.js";
 import {
   internalError,
@@ -224,12 +225,10 @@ export function createTitlesRepository(executor: SqlExecutor): TitlesRepositoryP
       const values: unknown[] = [];
 
       const statuses = filters.statuses ?? ["published"];
-      values.push(statuses);
-      where.push(`t.status = ANY($${values.length}::text[])`);
+      where.push(`t.status IN (${inList(statuses, values)})`);
 
       if (filters.kinds && filters.kinds.length > 0) {
-        values.push(filters.kinds);
-        where.push(`t.kind = ANY($${values.length}::text[])`);
+        where.push(`t.kind IN (${inList(filters.kinds, values)})`);
       }
       if (filters.yearFrom != null) {
         values.push(filters.yearFrom);
@@ -243,11 +242,10 @@ export function createTitlesRepository(executor: SqlExecutor): TitlesRepositoryP
         where.push(`t.is_adult = FALSE`);
       }
       if (filters.genreSlugs && filters.genreSlugs.length > 0) {
-        values.push(filters.genreSlugs);
         where.push(
           `EXISTS (SELECT 1 FROM catalog.title_genres tg
                      JOIN catalog.genres g ON g.id = tg.genre_id
-                    WHERE tg.title_id = t.id AND g.slug = ANY($${values.length}::text[]))`,
+                    WHERE tg.title_id = t.id AND g.slug IN (${inList(filters.genreSlugs, values)}))`,
         );
       }
       if (params.cursor) {
@@ -274,9 +272,11 @@ export function createTitlesRepository(executor: SqlExecutor): TitlesRepositoryP
     async getTitlesByIds(titleIds) {
       if (titleIds.length === 0) return { ok: true, value: [] };
       try {
+        const values: unknown[] = [];
         const result = await executor.execute(
-          `SELECT ${TITLE_COLUMNS} FROM catalog.titles WHERE id = ANY($1::uuid[])`,
-          [titleIds],
+          `SELECT ${TITLE_COLUMNS} FROM catalog.titles
+            WHERE id IN (${inList(titleIds, values, "uuid")})`,
+          values,
         );
         return { ok: true, value: result.rows.map(mapTitle) };
       } catch {
@@ -341,14 +341,15 @@ export function createTitlesRepository(executor: SqlExecutor): TitlesRepositoryP
 
     async getGenresByTitleIds(titleIds) {
       if (titleIds.length === 0) return { ok: true, value: new Map() };
+      const values: unknown[] = [];
       try {
         const result = await executor.execute(
           `SELECT tg.title_id, g.id, g.slug, g.name, tg.ordering
              FROM catalog.title_genres tg
              JOIN catalog.genres g ON g.id = tg.genre_id
-            WHERE tg.title_id = ANY($1::uuid[])
+            WHERE tg.title_id IN (${inList(titleIds, values, "uuid")})
             ORDER BY tg.title_id, tg.ordering, g.name`,
-          [titleIds],
+          values,
         );
         const map = new Map<string, TitleGenre[]>();
         for (const row of result.rows) {

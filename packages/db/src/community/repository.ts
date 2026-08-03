@@ -1,4 +1,5 @@
 import type { SqlExecutor, TransactionalSqlExecutor } from "../hyperdrive/executor.js";
+import { inList } from "../hyperdrive/in-list.js";
 import { SEVERITIES } from "./types.js";
 import type {
   AwardNomination,
@@ -226,12 +227,13 @@ export function createCommunityRepository(
 
         // Quote lines batch by fact id — a quotes tab would otherwise be one
         // query per quote.
+        const quoteValues: unknown[] = [];
         const lines = await executor.execute(
           `SELECT fact_id, ordering, speaker, line
              FROM community.title_quote_lines
-            WHERE fact_id = ANY($1::uuid[])
+            WHERE fact_id IN (${inList(quoteIds, quoteValues, "uuid")})
             ORDER BY fact_id, ordering`,
-          [quoteIds],
+          quoteValues,
         );
         const byFact = new Map<string, QuoteLine[]>();
         for (const row of lines.rows) {
